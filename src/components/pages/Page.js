@@ -19,7 +19,7 @@ export default function Categories({ page, setShowTitle }) {
     <>
       <ul className="container-center" id="category-list">
         {categoriesList.map((i) => {
-          return <CategoryTitle key={i} category={i} />;
+          return <CategoryTitle key={i} category={i} page={page} />;
         })}
       </ul>
     </>
