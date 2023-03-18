@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
 
 import CategoryTitle from './CategoryTitle';
 
-export default function Categories({ page, setShowTitle }) {
+export default function Categories({ setShowTitle }) {
   const [categoriesList, setCategoriesList] = useState([]);
   const imageCategories = ['photography', 'artworks', 'videos'];
   const musicCategories = ['instruments', 'videos', 'recordings', 'artworks'];
   const shopCategories = ['clothes', 'other', 'jewellery', 'patches'];
+
+  const { page } = useParams();
 
   useEffect(() => {
     setShowTitle(false);

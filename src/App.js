@@ -16,22 +16,7 @@ function App() {
       </div>
       <Routes>
         <Route path="/" />
-        <Route
-          path="/images"
-          element={<Page page={'images'} setShowTitle={setShowTitle} />}
-        />
-        <Route
-          path="/shop"
-          element={<Page page={'shop'} setShowTitle={setShowTitle} />}
-        />
-        <Route
-          path="/music"
-          element={<Page page={'music'} setShowTitle={setShowTitle} />}
-        />
-        <Route
-          path="/about"
-          element={<Page page={'about'} setShowTitle={setShowTitle} />}
-        />
+        <Route path="/:page" element={<Page setShowTitle={setShowTitle} />} />
         <Route path="/:page/:type" element={<DisplayCategory />} />
       </Routes>
     </>
