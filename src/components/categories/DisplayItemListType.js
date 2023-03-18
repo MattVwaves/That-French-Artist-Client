@@ -7,33 +7,37 @@ import ImageLarge from './ImageLarge';
 export default function DisplayItemListType({ category, displayItemList }) {
   const [imageLarge, setImageLarge] = useState(false);
   const [imageLargeUrl, setImageLargeUrl] = useState(null);
+  const [blurBgImages, setBlurBgImages] = useState({ filter: 'blur(0px)' });
+
   const handlePhotoLarge = (e) => {
     const imageUrl = e.target.src;
-    console.log(imageLargeUrl);
     setImageLarge(!imageLarge);
     setImageLargeUrl(imageUrl);
-    // setBlurBgImages({ filter: 'blur(4px)' });
+    setBlurBgImages({ filter: 'blur(10px)' });
   };
   return (
     <>
-      {imageLarge && (
-        <ImageLarge
-          imageLargeUrl={imageLargeUrl}
-          handlePhotoLarge={handlePhotoLarge}
-        />
-      )}
       {displayItemList.map((displayItem) => (
         <li key={displayItem.id} className="category">
           {category !== 'videos' ? (
             <ImageItem
               displayItem={displayItem}
               handlePhotoLarge={handlePhotoLarge}
+              blurBgImages={blurBgImages}
             />
           ) : (
             <VideoItem displayItem={displayItem} />
           )}
         </li>
       ))}
+      {imageLarge && (
+        <ImageLarge
+          imageLargeUrl={imageLargeUrl}
+          handlePhotoLarge={handlePhotoLarge}
+          setImageLarge={setImageLarge}
+          setBlurBgImages={setBlurBgImages}
+        />
+      )}
     </>
   );
 }

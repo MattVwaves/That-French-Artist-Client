@@ -17,7 +17,10 @@ function App() {
       <Routes>
         <Route path="/" />
         <Route path="/:page" element={<Page setShowTitle={setShowTitle} />} />
-        <Route path="/:page/:category" element={<CategoryType />} />
+        <Route
+          path="/:page/:category"
+          element={<CategoryType setShowTitle={setShowTitle} />}
+        />
       </Routes>
     </>
   );

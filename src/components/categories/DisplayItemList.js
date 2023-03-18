@@ -15,6 +15,15 @@ export default function DisplayItemList({ category }) {
   return (
     <>
       <Back />
+      <div className="center-horizontal">
+        <p id="image-focus">
+          click
+          <br />
+          img
+          <br></br>
+          to focus
+        </p>
+      </div>
       {displayItemList && (
         <ul className="display-items">
           <DisplayItemListType
