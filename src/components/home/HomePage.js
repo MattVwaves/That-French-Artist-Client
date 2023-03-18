@@ -1,11 +1,11 @@
 import Title from './Title';
 import Pages from './Pages';
 
-export default function HomePage() {
+export default function HomePage({ showTitle, setShowTitle }) {
   return (
     <>
-      <Title />
-      <Pages />
+      {showTitle && <Title />}
+      <Pages setShowTitle={setShowTitle} />
     </>
   );
 }

@@ -1,6 +1,6 @@
 import Page from './Page';
 
-export default function Pages() {
+export default function Pages({ setShowTitle }) {
   return (
     <div className="pages">
       <Page pageTitle={'images'} />
