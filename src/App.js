@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import HomePage from './components/home/HomePage';
 import Page from './components/pages/Page';
-import DisplayCategory from './components/categories/DisplayCategory';
+import CategoryType from './components/categories/CategoryType';
 
 function App() {
   const [showTitle, setShowTitle] = useState(true);
@@ -17,7 +17,7 @@ function App() {
       <Routes>
         <Route path="/" />
         <Route path="/:page" element={<Page setShowTitle={setShowTitle} />} />
-        <Route path="/:page/:type" element={<DisplayCategory />} />
+        <Route path="/:page/:category" element={<CategoryType />} />
       </Routes>
     </>
   );

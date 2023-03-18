@@ -6,6 +6,14 @@
   background-color: #e891d5;
 }
 
+.back-icon {
+  position: fixed;
+  top: 5%;
+  left: 40%;
+  transform: translate(-50%, -50%);
+  background-color: transparent !important;
+}
+
 /* logo */
 
 .container-center {
@@ -33,10 +41,12 @@
   background-color: transparent !important;
 }
 
+.pages img:first-child,
 .pages img:nth-child(3),
 .pages img:nth-child(5),
 .pages img:nth-child(7) {
   position: fixed;
+  background-color: transparent !important;
 }
 
 #images {
@@ -104,4 +114,14 @@
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+
+/* items */
+
+.display-items {
+  text-align: center;
+  width: 100vw;
+  display: inline-block;
+  margin-top: 50px;
+  border-radius: 2px;
 }
