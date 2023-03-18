@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-export default function Page({ pageTitle }) {
+export default function PageTitle({ pageTitle }) {
   return (
     <>
       <img

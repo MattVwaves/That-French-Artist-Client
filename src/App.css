@@ -22,7 +22,7 @@
   height: 50vh;
 }
 
-/* pages */
+/* page titles */
 
 #shop,
 #images,
@@ -77,4 +77,31 @@
 #about {
   color: #6eb7df;
   margin: 10px;
+}
+
+/* categories */
+
+#category-list {
+  display: grid;
+  grid-column-gap: 30px;
+  grid-template-columns: repeat(2, 110px);
+  padding: 1px;
+}
+
+.category {
+  width: fit-content;
+  display: inline-block;
+  padding: 2px;
+}
+
+.category h3 {
+  background-color: #e04193;
+  margin: 5px;
+  padding: 10px;
+}
+
+.category img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }

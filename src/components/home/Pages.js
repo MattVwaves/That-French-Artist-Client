@@ -1,12 +1,12 @@
-import Page from './Page';
+import PageTitle from './PageTitle';
 
-export default function Pages({ setShowTitle }) {
+export default function Pages() {
   return (
     <div className="pages">
-      <Page pageTitle={'images'} />
-      <Page pageTitle={'shop'} />
-      <Page pageTitle={'music'} />
-      <Page pageTitle={'about'} />
+      <PageTitle pageTitle={'images'} />
+      <PageTitle pageTitle={'shop'} />
+      <PageTitle pageTitle={'music'} />
+      <PageTitle pageTitle={'about'} />
     </div>
   );
 }
