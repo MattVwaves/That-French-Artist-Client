@@ -32,20 +32,21 @@ export default function PatchesRandom() {
       {showDisclaimer && (
         <Disclaimer handleCloseDisclaimer={handleCloseDisclaimer} />
       )}
-
-      <div className="patches-all-container">
-        {patchList.map((patch) => {
-          return (
-            <li className="grid-center">
-              <img
-                src={require(`../../../assets/shop/patches/${patchCategory}/${patch.description}.png`)}
-                height="75px"
-                alt="patch"
-              />
-            </li>
-          );
-        })}
-      </div>
+      {patchList && (
+        <div className="patches-all-container">
+          {patchList.map((patch) => {
+            return (
+              <li className="grid-center">
+                <img
+                  src={require(`../../../assets/shop/patches/${patchCategory}/${patch.description}.png`)}
+                  height="75px"
+                  alt="patch"
+                />
+              </li>
+            );
+          })}
+        </div>
+      )}
     </>
   );
 }
