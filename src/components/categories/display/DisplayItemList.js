@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import DisplayItemListType from './DisplayItemListType';
-import Back from '../functional/back';
+import Back from '../../functional/back';
 
 export default function DisplayItemList({ category }) {
   const [displayItemList, setDisplayItemList] = useState(null);
