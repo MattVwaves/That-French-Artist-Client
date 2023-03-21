@@ -32,6 +32,27 @@ export default function PatchesRandom() {
       {showDisclaimer && (
         <Disclaimer handleCloseDisclaimer={handleCloseDisclaimer} />
       )}
+      {!showDisclaimer && (
+        <div className="patch-custom" id="random-add">
+          <span id="size">small</span>
+          <span id="size">large</span>
+          <span>£13</span>
+          <span>£18</span>
+          <div className="patch-selects">
+            <button>+</button>
+            <button>-</button>
+            <span>0</span>
+          </div>
+          <div className="patch-selects ">
+            <button>+</button>
+            <button>-</button>
+            <span>0</span>
+          </div>
+          {/* <AddMany id="small" /> */}
+          {/* <AddMany id="large" /> */}
+        </div>
+      )}
+
       {patchList && (
         <div className="patches-all-container">
           {patchList.map((patch) => {

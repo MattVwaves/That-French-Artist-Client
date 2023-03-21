@@ -313,6 +313,7 @@ span,
   color: #e04193;
 }
 
+.patch-selects,
 .patch-custom img,
 .patch-selects.add-many-cart,
 .patches-all-container,
@@ -321,4 +322,31 @@ span,
 #disclaimer-heading,
 #disclaimer-text {
   background-color: transparent !important;
+}
+
+#random-add.patch-custom {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* background-color: #6eb7df; */
+  padding: 10px;
+  /* border: 2px solid #e04193; */
+  border-radius: 10px 30px 10px 30px;
+  margin-top: 0;
+  box-shadow: 2px 2px;
+}
+
+#random-add span {
+  font-size: 20px;
+  width: 80%;
+  padding: 3px;
+}
+
+#size {
+  background-color: #e04193;
+  font-size: 15px;
+  color: white;
 }
