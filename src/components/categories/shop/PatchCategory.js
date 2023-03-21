@@ -1,12 +1,24 @@
-import { useParams, useLocation } from 'react-router';
-import { useEffect } from 'react';
+import { useParams } from 'react-router';
+import { useEffect, useState } from 'react';
+import PatchDesigns from './PatchDesigns';
+import PatchesRandom from './PatchesRandom';
 
 export default function PatchLists() {
   const { category } = useParams();
-  const Location = useLocation();
+
+  const [showPatchDesigns, setShowPatchDesigns] = useState(false);
+  const [showRandomPatches, setShowRandomPatches] = useState(false);
 
   useEffect(() => {
-    console.log(category);
-    console.log(Location);
+    if (category === 'custom') setShowPatchDesigns(true);
+    if (category === 'embroided-random' || category === 'bleached-random')
+      setShowRandomPatches(true);
   });
+
+  return (
+    <>
+      {showPatchDesigns && <PatchDesigns />}
+      {showRandomPatches && <PatchesRandom />}
+    </>
+  );
 }

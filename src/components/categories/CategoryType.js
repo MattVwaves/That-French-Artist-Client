@@ -4,12 +4,11 @@ import { useEffect } from 'react';
 import DisplayItemList from './display/DisplayItemList';
 import SetShopItemCategory from './shop/SetShopItemCategory';
 
-export default function CategoryType({ setShowTitle }) {
+export default function CategoryType() {
   const { category, page } = useParams();
 
   useEffect(() => {
     console.log(category);
-    setShowTitle(false);
   });
 
   return (

@@ -22,13 +22,13 @@ export default function PatchType() {
       setTitleOne('custom');
       setTitleTwo('random');
       setPathOne(`/shop/patches/embroided/custom`);
-      setPathTwo(`/shop/patches/embroided/random`);
+      setPathTwo(`/shop/patches/embroided/embroided-random`);
     }
     if (Location.pathname === '/shop/patches/bleached') {
       setTitleOne('made to order');
       setTitleTwo('random');
       setPathOne(`/shop/patches/bleached/made-to-order`);
-      setPathTwo(`/shop/patches/bleached/random`);
+      setPathTwo(`/shop/patches/bleached/bleached-random`);
     }
   });
   return (

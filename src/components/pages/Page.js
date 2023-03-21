@@ -3,7 +3,7 @@ import { useParams } from 'react-router';
 
 import CategoryTitle from './CategoryTitle';
 
-export default function Categories({ setShowTitle }) {
+export default function Categories() {
   const [categoriesList, setCategoriesList] = useState([]);
   const imageCategories = ['photography', 'artworks', 'videos'];
   const musicCategories = ['instruments', 'videos', 'recordings', 'artworks'];
@@ -12,7 +12,6 @@ export default function Categories({ setShowTitle }) {
   const { page } = useParams();
 
   useEffect(() => {
-    setShowTitle(false);
     if (page === 'images') setCategoriesList(imageCategories);
     if (page === 'music') setCategoriesList(musicCategories);
     if (page === 'shop') setCategoriesList(shopCategories);
