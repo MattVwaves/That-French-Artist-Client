@@ -236,7 +236,6 @@ span,
 
 .patch-custom img {
   height: 30vh;
-  background-color: transparent !important;
 }
 
 #patch-frame {
@@ -255,7 +254,6 @@ span,
 .patch-selects.add-many-cart {
   grid-template-columns: repeat(3, 1fr);
   margin-top: 5px;
-  background-color: transparent !important;
 }
 
 .patch-selects select {
@@ -283,7 +281,6 @@ span,
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: transparent !important;
   z-index: -1;
   margin-top: 30px;
 }
@@ -304,21 +301,24 @@ span,
 #patch-popup {
   width: 100vw;
   margin-bottom: 100px;
-  background-color: transparent !important;
 }
 
 #patch-popup-2 {
   width: 100vw;
   margin-top: 100px;
-  background-color: transparent !important;
-}
-
-#disclaimer-heading {
-  background-color: transparent !important;
 }
 
 #disclaimer-text {
   padding: 5px;
   color: #e04193;
+}
+
+.patch-custom img,
+.patch-selects.add-many-cart,
+.patches-all-container,
+#patch-popup,
+#patch-popup-2,
+#disclaimer-heading,
+#disclaimer-text {
   background-color: transparent !important;
 }
