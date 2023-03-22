@@ -4,7 +4,12 @@ import { useEffect } from 'react';
 import DisplayItemList from './display/DisplayItemList';
 import SetShopItemCategory from './shop/SetShopItemCategory';
 
-export default function CategoryType({ basketList, setBasketList }) {
+export default function CategoryType({
+  shopItemsList,
+  setShopItemsList,
+  basketList,
+  setBasketList,
+}) {
   const { category, page } = useParams();
 
   useEffect(() => {});
@@ -17,6 +22,8 @@ export default function CategoryType({ basketList, setBasketList }) {
       {page === 'shop' && (
         <SetShopItemCategory
           category={category}
+          shopItemsList={shopItemsList}
+          setShopItemsList={setShopItemsList}
           basketList={basketList}
           setBasketList={setBasketList}
         />

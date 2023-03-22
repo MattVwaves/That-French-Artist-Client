@@ -4,11 +4,12 @@ import { useNavigate, useLocation } from 'react-router';
 
 export default function SetShopItemCategory({
   category,
+  shopItemsList,
+  setShopItemsList,
   basketList,
   setBasketList,
 }) {
   const apiUrl = 'http://localhost:4000';
-  const [shopItemsList, setShopItemsList] = useState([]);
   const Navigate = useNavigate();
   const Location = useLocation();
 

@@ -2,7 +2,11 @@ import { useState } from 'react';
 import BasketItem from './BasketItem';
 import Total from './Total';
 
-export default function Basket({ basketList }) {
+export default function Basket({
+  shopItemsList,
+  setShopItemsList,
+  basketList,
+}) {
   const [displayBasket, setDisplaybasket] = useState(false);
 
   const handleDisplayBasket = () => {
@@ -18,7 +22,10 @@ export default function Basket({ basketList }) {
               basketList.map((basketItem) => {
                 return (
                   <BasketItem
+                    shopItemsList={shopItemsList}
+                    setShopItemsList={setShopItemsList}
                     basketItem={basketItem}
+                    basketList={basketList}
                     // handleBasketStatus={handleBasketStatus}
                     // patchQuantity={patchQuantity}
                     // setPatchQuantity={setPatchQuantity}

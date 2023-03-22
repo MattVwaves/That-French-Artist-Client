@@ -12,6 +12,7 @@ import Basket from './components/categories/shop/Basket';
 
 function App() {
   const [showTitle, setShowTitle] = useState(true);
+  const [shopItemsList, setShopItemsList] = useState([]);
   const [basketList, setBasketList] = useState([]);
   const Location = useLocation();
 
@@ -29,7 +30,11 @@ function App() {
   return (
     <>
       <div className="App">
-        <Basket basketList={basketList} />
+        <Basket
+          basketList={basketList}
+          shopItemsList={shopItemsList}
+          setShopItemsList={setShopItemsList}
+        />
         <HomePage showTitle={showTitle} setShowTitle={setShowTitle} />
       </div>
       <Routes>
@@ -39,6 +44,8 @@ function App() {
           path="/:page/:category"
           element={
             <CategoryType
+              shopItemsList={shopItemsList}
+              setShopItemsList={setShopItemsList}
               basketList={basketList}
               setBasketList={setBasketList}
             />

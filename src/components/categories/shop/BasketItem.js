@@ -1,5 +1,28 @@
-export default function BasketItem({ basketItem }) {
-  const handleBasketStatus = (basketItem) => {};
+export default function BasketItem({
+  shopItemsList,
+  setShopItemsList,
+  basketItem,
+  basketList,
+}) {
+  const handleBasketStatus = (basketItem) => {
+    const foundItem = basketList.find(
+      (storedItem) => basketItem.description === storedItem.description
+    );
+    if (foundItem) {
+      const opts = {
+        method: 'DELETE',
+        headers: { 'Content-type': 'application/json' },
+      };
+      fetch(`http://localhost:4000/item/basket/${basketItem.id}`, opts);
+    }
+    const updatedItemsList = shopItemsList.map((storedItem) => {
+      if (storedItem.description === basketItem.description) {
+        return { ...storedItem, basketStatus: 'Add to basket' };
+      }
+      return storedItem;
+    });
+    setShopItemsList(updatedItemsList);
+  };
 
   return (
     <li key={basketItem.id}>
