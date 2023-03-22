@@ -19,7 +19,7 @@ export default function Basket({
           <h1>BASKET</h1>
           <ul>
             {basketList &&
-              basketList.map((basketItem) => {
+              basketList.sort().map((basketItem) => {
                 return (
                   <BasketItem
                     shopItemsList={shopItemsList}

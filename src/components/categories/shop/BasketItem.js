@@ -24,7 +24,17 @@ export default function BasketItem({
     setShopItemsList(updatedItemsList);
   };
 
-  const handleAddPatch = () => {};
+  const handleAddPatch = () => {
+    const opts = {
+      method: 'PATCH',
+      headers: { 'Content-type': 'application/json' },
+      body: JSON.stringify({
+        quantity: basketItem.quantity + 1,
+      }),
+    };
+
+    fetch(`http://localhost:4000/item/basket/${basketItem.id}`, opts);
+  };
 
   const handleRemovePatch = (basketItem) => {
     if (basketItem.quantity > 1) {

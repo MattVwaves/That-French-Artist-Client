@@ -8,11 +8,9 @@ export default function CustomPatch() {
   const [frameColour, setFrameColour] = useState('white');
   const [designColour, setDesignColour] = useState('white');
   const [patchId, setPatchId] = useState(null);
-  const [patchQuantity, setPatchQuantity] = useState(0);
   const basketId = localStorage.getItem('basketId');
 
   const handleColour = (e) => {
-    setPatchQuantity(0);
     const component = e.target.id;
     const colour = e.target.value;
     if (component === 'frame-colour') {
@@ -24,40 +22,34 @@ export default function CustomPatch() {
   };
 
   const handleAddPatch = () => {
-    if (patchQuantity === 0) {
-      const opts = {
-        method: 'POST',
-        headers: { 'Content-type': 'application/json' },
-        body: JSON.stringify({
-          description: `custom-${designColour}-${frameColour}`,
-          category: 'patches',
-          price: '£15.00',
-        }),
-      };
-      fetch(`http://localhost:4000/item/basket/${basketId}`, opts).then((res) =>
-        res.json().then((data) => {
-          localStorage.setItem('patchId', data.basketItem.id);
-          setPatchId(data.basketItem.id);
-        })
-      );
-      setPatchQuantity(1);
-      return;
-    }
-
     const opts = {
-      method: 'PATCH',
+      method: 'POST',
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify({
-        quantity: patchQuantity + 1,
+        description: `${design}-${designColour}-${frameColour}`,
+        category: 'patches',
+        price: '£15.00',
       }),
     };
-
-    fetch(`http://localhost:4000/item/basket/${patchId}`, opts).then((res) =>
-      res.json()
+    fetch(`http://localhost:4000/item/basket/${basketId}`, opts).then((res) =>
+      res.json().then((data) => {})
     );
+    return;
 
-    const newPatchQuantity = patchQuantity + 1;
-    setPatchQuantity(newPatchQuantity);
+    // const opts = {
+    //   method: 'PATCH',
+    //   headers: { 'Content-type': 'application/json' },
+    //   body: JSON.stringify({
+    //     quantity: 1,
+    //   }),
+    // };
+
+    // fetch(`http://localhost:4000/item/basket/${patchId}`, opts).then((res) =>
+    //   res.json()
+    // );
+
+    // const newPatchQuantity = patchQuantity + 1;
+    // setPatchQuantity(newPatchQuantity);
   };
 
   return (
