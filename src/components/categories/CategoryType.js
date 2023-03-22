@@ -4,19 +4,23 @@ import { useEffect } from 'react';
 import DisplayItemList from './display/DisplayItemList';
 import SetShopItemCategory from './shop/SetShopItemCategory';
 
-export default function CategoryType() {
+export default function CategoryType({ basketList, setBasketList }) {
   const { category, page } = useParams();
 
-  useEffect(() => {
-    console.log(category);
-  });
+  useEffect(() => {});
 
   return (
     <>
       {(page === 'images' || page === 'music') && (
         <DisplayItemList category={category} />
       )}
-      {page === 'shop' && <SetShopItemCategory category={category} />}
+      {page === 'shop' && (
+        <SetShopItemCategory
+          category={category}
+          basketList={basketList}
+          setBasketList={setBasketList}
+        />
+      )}
     </>
   );
 }
