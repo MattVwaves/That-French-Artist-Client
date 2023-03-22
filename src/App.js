@@ -24,7 +24,7 @@ function App() {
         .then((res) => res.json())
         .then((data) => setBasketList(data.basket.basketItems));
     }
-  });
+  }, [Location]);
 
   return (
     <>

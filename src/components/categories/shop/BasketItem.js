@@ -2,7 +2,7 @@ export default function BasketItem({ basketItem }) {
   const handleBasketStatus = (basketItem) => {};
 
   return (
-    <li>
+    <li key={basketItem.id}>
       <img
         src={require(`../../../assets/shop/clothes/${basketItem.description}.png`)}
         alt="reddress"

@@ -366,3 +366,18 @@ span,
   background-color: #e04193;
   padding: 10px;
 }
+
+.basket-icon {
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  margin-top: 15px;
+  height: 60px;
+  background-color: transparent !important;
+}
+
+.basket-icon:hover {
+  cursor: pointer;
+  border-radius: 50%;
+}

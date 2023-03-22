@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 export default function ShopItemList({
   shopItemsList,
+  setShopItemsList,
   basketList,
   setBasketList,
 }) {
@@ -17,7 +18,7 @@ export default function ShopItemList({
           setBasketList(data.basket.basketItems);
         });
     }
-  });
+  }, [basketList]);
   // If no local basket yet then create basket
   const handleCartStatus = (shopItem) => {
     if (localStorage.getItem('basketId') === null) {
@@ -36,6 +37,14 @@ export default function ShopItemList({
           setBasketList(data.basket.basketItems);
           localStorage.setItem('basketId', data.basket.id);
         });
+      // update basketStatus of shop item
+      const updatedItemsList = shopItemsList.map((storedItem) => {
+        if (storedItem.id === shopItem.id)
+          return { ...storedItem, basketStatus: 'Remove from basket' };
+        return storedItem;
+      });
+      setShopItemsList(updatedItemsList);
+      return;
     }
     // If there is local basket check for item in basket
     const foundItem = basketList.find(
@@ -63,30 +72,50 @@ export default function ShopItemList({
       };
       fetch(`${apiUrl}/item/basket/${foundItem.id}`, opts);
     }
+    // Update shop item basket status
+    const updatedItemsList = shopItemsList.map((storedItem) => {
+      if (
+        storedItem.id === shopItem.id &&
+        storedItem.basketStatus === 'Add to basket'
+      )
+        return { ...storedItem, basketStatus: 'Remove from basket' };
+      if (
+        storedItem.id === shopItem.id &&
+        storedItem.basketStatus === 'Remove from basket'
+      )
+        return { ...storedItem, basketStatus: 'Add to basket' };
+
+      return storedItem;
+    });
+    setShopItemsList(updatedItemsList);
   };
 
   return (
     <>
-      {shopItemsList.map((shopItem) => {
-        return (
-          <li className="category">
-            <img
-              src={require(`../../../assets/shop/clothes/${shopItem.description}.png`)}
-              height="150px"
-              alt="shopItem"
-            />
-            <div className="adding-removing-items">
-              <span> £20.00</span>
-              <button
-                style={{ backgroundColor: 'white' }}
-                onClick={() => handleCartStatus(shopItem)}
-              >
-                {shopItem.basketStatus}
-              </button>
-            </div>
-          </li>
-        );
-      })}
+      {shopItemsList && (
+        <ul className="container-center shop-item-list" id="category-list">
+          {shopItemsList.map((shopItem) => {
+            return (
+              <li className="category" key={shopItem.id}>
+                <img
+                  src={require(`../../../assets/shop/clothes/${shopItem.description}.png`)}
+                  height="150px"
+                  alt="shopItem"
+                />
+                <div className="adding-removing-items">
+                  <span> £20.00</span>
+                  <button
+                    style={{ backgroundColor: 'white' }}
+                    onClick={() => handleCartStatus(shopItem)}
+                  >
+                    {shopItem.basketStatus}
+                  </button>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      )}
     </>
   );
 }

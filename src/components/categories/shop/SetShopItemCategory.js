@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import ShopItemList from './ShopItemList';
-import { useNavigate } from 'react-router';
+import { useNavigate, useLocation } from 'react-router';
 
 export default function SetShopItemCategory({
   category,
@@ -10,6 +10,7 @@ export default function SetShopItemCategory({
   const apiUrl = 'http://localhost:4000';
   const [shopItemsList, setShopItemsList] = useState([]);
   const Navigate = useNavigate();
+  const Location = useLocation();
 
   useEffect(() => {
     if (category === 'clothes') {
@@ -34,19 +35,16 @@ export default function SetShopItemCategory({
     if (category === 'patches') {
       Navigate('/shop/patches');
     }
-  });
+  }, [Location]);
 
   return (
     <>
-      {shopItemsList && (
-        <ul className="container-center shop-item-list" id="category-list">
-          <ShopItemList
-            shopItemsList={shopItemsList}
-            basketList={basketList}
-            setBasketList={setBasketList}
-          />
-        </ul>
-      )}
+      <ShopItemList
+        shopItemsList={shopItemsList}
+        setShopItemsList={setShopItemsList}
+        basketList={basketList}
+        setBasketList={setBasketList}
+      />
     </>
   );
 }
