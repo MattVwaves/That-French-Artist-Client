@@ -385,3 +385,7 @@ span,
 #custom-patch-add {
   margin-top: 5px;
 }
+
+#patch-basket-item span {
+  display: inline-block;
+}

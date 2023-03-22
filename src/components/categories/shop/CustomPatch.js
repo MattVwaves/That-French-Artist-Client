@@ -26,7 +26,7 @@ export default function CustomPatch() {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify({
-        description: `${design}-${designColour}-${frameColour}`,
+        description: `${design}-${frameColour}-${designColour}`,
         category: 'patches',
         price: '£15.00',
       }),

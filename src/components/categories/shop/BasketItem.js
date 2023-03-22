@@ -73,7 +73,7 @@ export default function BasketItem({
         </li>
       )}
       {basketItem.category === 'patches' && (
-        <li>
+        <li id="patch-basket-item">
           <p>{basketItem.description}</p>
           <span>{basketItem.price}</span>
           <button onClick={() => handleAddPatch(basketItem)}>+</button>
