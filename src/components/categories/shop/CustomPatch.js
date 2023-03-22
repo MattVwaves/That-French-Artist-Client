@@ -7,18 +7,58 @@ export default function CustomPatch() {
   const { design } = useParams();
   const [frameColour, setFrameColour] = useState('white');
   const [designColour, setDesignColour] = useState('white');
+  const [patchId, setPatchId] = useState(null);
   const [patchQuantity, setPatchQuantity] = useState(0);
+  const basketId = localStorage.getItem('basketId');
 
-  useEffect(() => {
-    setFrameColour('white');
-    setDesignColour('white');
-  });
+  const handleColour = (e) => {
+    setPatchQuantity(0);
+    const component = e.target.id;
+    const colour = e.target.value;
+    if (component === 'frame-colour') {
+      setFrameColour(colour);
+    }
+    if (component === 'design-colour') {
+      setDesignColour(colour);
+    }
+  };
 
-  const handleColour = () => {};
+  const handleAddPatch = () => {
+    if (patchQuantity === 0) {
+      const opts = {
+        method: 'POST',
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify({
+          description: `custom-${designColour}-${frameColour}`,
+          category: 'patches',
+          price: '£15.00',
+        }),
+      };
+      fetch(`http://localhost:4000/item/basket/${basketId}`, opts).then((res) =>
+        res.json().then((data) => {
+          localStorage.setItem('patchId', data.basketItem.id);
+          setPatchId(data.basketItem.id);
+        })
+      );
+      setPatchQuantity(1);
+      return;
+    }
 
-  const handleAddPatch = () => {};
+    const opts = {
+      method: 'PATCH',
+      headers: { 'Content-type': 'application/json' },
+      body: JSON.stringify({
+        quantity: patchQuantity + 1,
+      }),
+    };
 
-  const handleRemovePatch = () => {};
+    fetch(`http://localhost:4000/item/basket/${patchId}`, opts).then((res) =>
+      res.json()
+    );
+
+    const newPatchQuantity = patchQuantity + 1;
+    setPatchQuantity(newPatchQuantity);
+  };
 
   return (
     <>
@@ -81,11 +121,9 @@ export default function CustomPatch() {
           </select>
         </form>
         <span id="custom-patch-price">£15.00</span>
-        <div className="patch-selects add-many-cart">
-          <button onClick={handleAddPatch}>+</button>
-          <button onClick={handleRemovePatch}>-</button>
-          <span>{patchQuantity}</span>
-        </div>
+        <button id="custom-patch-add" onClick={handleAddPatch}>
+          Add to basket
+        </button>
       </div>
     </>
   );

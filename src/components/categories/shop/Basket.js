@@ -26,11 +26,6 @@ export default function Basket({
                     setShopItemsList={setShopItemsList}
                     basketItem={basketItem}
                     basketList={basketList}
-                    // handleBasketStatus={handleBasketStatus}
-                    // patchQuantity={patchQuantity}
-                    // setPatchQuantity={setPatchQuantity}
-                    // patchId={patchId}
-                    // setPatchId={setPatchId}
                   />
                 );
               })}
