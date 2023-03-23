@@ -16,13 +16,13 @@ export default function DisplayItemList({ category }) {
     <>
       <Back />
       <div className="center-horizontal">
-        <p id="image-focus">
+        {/* <p id="image-focus">
           click
           <br />
           img
           <br></br>
           to focus
-        </p>
+        </p> */}
       </div>
       {displayItemList && (
         <ul className="display-items">
