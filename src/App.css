@@ -184,7 +184,7 @@ button {
   grid-template-columns: repeat(2, 150px);
   grid-column-gap: 5px;
   position: absolute;
-  margin-top: 50vh;
+  margin-top: 55vh;
 }
 
 .adding-removing-items span {
@@ -192,6 +192,11 @@ button {
   background-color: #91ead6;
   font-size: 12px;
   border-radius: 2px;
+  margin: auto;
+}
+
+#shop-item {
+  margin-bottom: 20px;
 }
 
 .adding-removing-items {

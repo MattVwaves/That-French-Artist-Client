@@ -98,7 +98,7 @@ export default function ShopItemList({
         <ul className="container-center shop-item-list" id="category-list">
           {shopItemsList.map((shopItem) => {
             return (
-              <li className="category" key={shopItem.id}>
+              <li className="category" key={shopItem.id} id="shop-item">
                 <img
                   src={require(`../../../assets/shop/clothes/${shopItem.description}.png`)}
                   height="150px"
