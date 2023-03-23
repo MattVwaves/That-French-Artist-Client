@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import BackIcon from '../../functional/back';
 
 export default function ShopItemList({
   shopItemsList,
@@ -92,6 +93,7 @@ export default function ShopItemList({
 
   return (
     <>
+      <BackIcon />
       {shopItemsList && (
         <ul className="container-center shop-item-list" id="category-list">
           {shopItemsList.map((shopItem) => {

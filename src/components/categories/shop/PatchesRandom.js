@@ -39,7 +39,7 @@ export default function PatchesRandom() {
         <div className="patches-all-container">
           {patchList.map((patch) => {
             return (
-              <li className="grid-center">
+              <li className="grid-center" key={patch.id}>
                 <img
                   src={require(`../../../assets/shop/patches/${patchCategory}/${patch.description}.png`)}
                   height="75px"
