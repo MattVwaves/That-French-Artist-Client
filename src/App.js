@@ -2,7 +2,8 @@ import './App.css';
 import { Route, Routes, useLocation } from 'react-router';
 import { useState, useEffect } from 'react';
 
-import HomePage from './components/home/HomePage';
+import Title from './components/home/Title';
+import Pages from './components/home/Pages';
 import Page from './components/pages/Page';
 import CategoryType from './components/categories/CategoryType';
 import PatchType from './components/categories/shop/PatchType';
@@ -11,15 +12,13 @@ import CustomPatch from './components/categories/shop/CustomPatch';
 import Basket from './components/categories/shop/Basket';
 
 function App() {
-  const [showTitle, setShowTitle] = useState(true);
   const [shopItemsList, setShopItemsList] = useState([]);
   const [basketList, setBasketList] = useState([]);
   const Location = useLocation();
-  // const [customPatchId, setCustomPatchId] = useState(null);
   const [patchQuantity, setPatchQuantity] = useState(0);
 
   useEffect(() => {
-    if (Location.pathname !== '/') setShowTitle(false);
+    // if (Location.pathname !== '/') setShowTitle(false);
 
     const basketId = localStorage.getItem('basketId');
     if (basketId) {
@@ -40,10 +39,12 @@ function App() {
           patchQuantity={patchQuantity}
           setPatchQuantity={setPatchQuantity}
         />
-        <HomePage showTitle={showTitle} setShowTitle={setShowTitle} />
+        <Pages />
+
+        {/* <HomePage showTitle={showTitle} setShowTitle={setShowTitle} /> */}
       </div>
       <Routes>
-        <Route path="/" />
+        <Route path="/" element={<Title />} />
         <Route path="/:page" element={<Page />} />
         <Route
           path="/:page/:category"
