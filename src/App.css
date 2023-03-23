@@ -182,7 +182,7 @@ button {
 
 #category-list.container-center.shop-item-list {
   grid-template-columns: repeat(2, 150px);
-  grid-column-gap: 5px;
+  grid-column-gap: 10px;
   position: absolute;
   margin-top: 55vh;
 }
