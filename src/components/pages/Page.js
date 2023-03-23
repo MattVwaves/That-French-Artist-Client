@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 
 import CategoryTitle from './CategoryTitle';
+import BackIcon from '../functional/back';
 
 export default function Categories() {
   const [categoriesList, setCategoriesList] = useState([]);
@@ -19,6 +20,7 @@ export default function Categories() {
 
   return (
     <>
+      <BackIcon />
       <ul className="container-center" id="category-list">
         {categoriesList.map((i) => {
           return <CategoryTitle key={i} category={i} page={page} />;
