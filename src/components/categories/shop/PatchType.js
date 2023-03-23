@@ -6,8 +6,8 @@ import BackIcon from '../../functional/back';
 
 export default function PatchType() {
   const Location = useLocation();
-  const [titleOne, setTitleOne] = useState('');
-  const [titleTwo, setTitleTwo] = useState('');
+  const [titleOne, setTitleOne] = useState('embroided');
+  const [titleTwo, setTitleTwo] = useState('bleached');
   const [pathOne, setPathOne] = useState('');
   const [pathTwo, setPathTwo] = useState('');
 
@@ -25,7 +25,7 @@ export default function PatchType() {
       setPathTwo(`/shop/patches/embroided/embroided-random`);
     }
     if (Location.pathname === '/shop/patches/bleached') {
-      setTitleOne('made to order');
+      setTitleOne('made-to-order');
       setTitleTwo('random');
       setPathOne(`/shop/patches/bleached/made-to-order`);
       setPathTwo(`/shop/patches/bleached/bleached-random`);
@@ -46,7 +46,7 @@ export default function PatchType() {
           >
             <h3>{titleOne}</h3>
             <img
-              src={require('../../../assets/shop/patches/embroided/dino-blue-orange.png')}
+              src={require(`../../../assets/shop/patches/${titleOne}.png`)}
               alt="dino"
               height="100px"
             />
@@ -63,7 +63,7 @@ export default function PatchType() {
           >
             <h3>{titleTwo}</h3>
             <img
-              src={require('../../../assets/shop/patches/embroided/dino-blue-orange.png')}
+              src={require(`../../../assets/shop/patches/${titleTwo}.png`)}
               alt="dino"
               height="100px"
             />
