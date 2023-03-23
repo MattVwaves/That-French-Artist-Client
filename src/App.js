@@ -31,7 +31,7 @@ function App() {
 
   return (
     <>
-      <h1>{patchQuantity}</h1>
+      {/* <h1>{patchQuantity}</h1> */}
       <div className="App">
         <Basket
           basketList={basketList}

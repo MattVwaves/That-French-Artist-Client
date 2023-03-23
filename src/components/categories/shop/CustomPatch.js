@@ -64,14 +64,9 @@ export default function CustomPatch({ patchQuantity, setPatchQuantity }) {
       }),
     };
 
-    fetch(`http://localhost:4000/item/basket/${patchId}`, opts)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      });
+    fetch(`http://localhost:4000/item/basket/${patchId}`, opts);
     const newPatchQuantity = patchQuantity + 1;
     setPatchQuantity(newPatchQuantity);
-    // localStorage.setItem('custom-patch-quantity', newPatchQuantity);
   };
 
   const handleRemovePatch = () => {
@@ -83,14 +78,9 @@ export default function CustomPatch({ patchQuantity, setPatchQuantity }) {
           quantity: patchQuantity - 1,
         }),
       };
-      fetch(`http://localhost:4000/item/basket/${patchId}`, opts)
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-        });
+      fetch(`http://localhost:4000/item/basket/${patchId}`, opts);
       const newPatchQuantity = patchQuantity - 1;
       setPatchQuantity(newPatchQuantity);
-      localStorage.setItem('custom-patch-quantity', newPatchQuantity);
       return;
     }
     if (patchQuantity === 1) {
@@ -100,7 +90,6 @@ export default function CustomPatch({ patchQuantity, setPatchQuantity }) {
       };
       fetch(`http://localhost:4000/item/basket/${patchId}`, opts);
       setPatchQuantity(0);
-      localStorage.setItem('custom-patch-quantity', null);
       localStorage.setItem('custom-patch-id', null);
     }
   };
@@ -166,12 +155,9 @@ export default function CustomPatch({ patchQuantity, setPatchQuantity }) {
           </select>
         </form>
         <span id="custom-patch-price">£15.00</span>
-        {/* <button id="custom-patch-add" onClick={handleAddPatch}>
-          Add to basket
-        </button> */}
         <button onClick={handleAddPatch}>+</button>
         <button onClick={handleRemovePatch}>-</button>
-        <span>{patchQuantity}</span>
+        <span id="custom-patch-price">{patchQuantity}</span>
       </div>
     </>
   );
