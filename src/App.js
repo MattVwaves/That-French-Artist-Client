@@ -30,7 +30,6 @@ function App() {
 
   return (
     <>
-      {/* <h1>{patchQuantity}</h1> */}
       <div className="App">
         <Basket
           basketList={basketList}
@@ -40,8 +39,6 @@ function App() {
           setPatchQuantity={setPatchQuantity}
         />
         <Pages />
-
-        {/* <HomePage showTitle={showTitle} setShowTitle={setShowTitle} /> */}
       </div>
       <Routes>
         <Route path="/" element={<Title />} />

@@ -41,7 +41,7 @@ export default function CustomPatch({ patchQuantity, setPatchQuantity }) {
         method: 'POST',
         headers: { 'Content-type': 'application/json' },
         body: JSON.stringify({
-          description: `custom-${designColour}-${frameColour}`,
+          description: `cstm-${design}-${designColour}-${frameColour}`,
           category: 'patches',
           price: '£15.00',
         }),
