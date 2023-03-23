@@ -15,6 +15,7 @@ function App() {
   const [shopItemsList, setShopItemsList] = useState([]);
   const [basketList, setBasketList] = useState([]);
   const Location = useLocation();
+  // const [customPatchId, setCustomPatchId] = useState(null);
   const [patchQuantity, setPatchQuantity] = useState(0);
 
   useEffect(() => {

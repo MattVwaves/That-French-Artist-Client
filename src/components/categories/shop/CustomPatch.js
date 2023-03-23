@@ -11,17 +11,27 @@ export default function CustomPatch({ patchQuantity, setPatchQuantity }) {
   const basketId = localStorage.getItem('basketId');
 
   useEffect(() => {
-    // console.log(patchQuantity);
+    const storedFrameColour = localStorage.getItem('frame-colour');
+    const storedDesignColour = localStorage.getItem('design-colour');
+    const storedPatchId = localStorage.getItem('custom-patch-id');
+
+    if (storedFrameColour) setFrameColour(storedFrameColour);
+    if (storedDesignColour) setDesignColour(storedDesignColour);
+    if (storedPatchId) setPatchId(storedPatchId);
   });
 
   const handleColour = (e) => {
+    localStorage.setItem('custom-patch-id', null);
+    setPatchQuantity(0);
     const component = e.target.id;
     const colour = e.target.value;
     if (component === 'frame-colour') {
       setFrameColour(colour);
+      localStorage.setItem('frame-colour', colour);
     }
     if (component === 'design-colour') {
       setDesignColour(colour);
+      localStorage.setItem('design-colour', colour);
     }
   };
 

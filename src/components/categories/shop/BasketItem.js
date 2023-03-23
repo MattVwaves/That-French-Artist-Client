@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 export default function BasketItem({
   shopItemsList,
   setShopItemsList,
@@ -6,6 +8,13 @@ export default function BasketItem({
   patchQuantity,
   setPatchQuantity,
 }) {
+  const [customPatchId, setCustomPatchId] = useState(null);
+
+  useEffect(() => {
+    const customPatchId = localStorage.getItem('custom-patch-id');
+    setCustomPatchId(customPatchId);
+  });
+
   const handleBasketStatus = (basketItem) => {
     const foundItem = basketList.find(
       (storedItem) => basketItem.description === storedItem.description
@@ -26,7 +35,11 @@ export default function BasketItem({
     setShopItemsList(updatedItemsList);
   };
 
-  const handleAddPatch = () => {
+  const handleAddPatch = (basketItem) => {
+    if (Number(customPatchId) === basketItem.id) {
+      console.log(customPatchId);
+      setPatchQuantity(patchQuantity + 1);
+    }
     const opts = {
       method: 'PATCH',
       headers: { 'Content-type': 'application/json' },
@@ -34,12 +47,14 @@ export default function BasketItem({
         quantity: basketItem.quantity + 1,
       }),
     };
-    setPatchQuantity(patchQuantity + 1);
     fetch(`http://localhost:4000/item/basket/${basketItem.id}`, opts);
   };
 
   const handleRemovePatch = (basketItem) => {
     if (basketItem.quantity > 1) {
+      if (Number(customPatchId) === basketItem.id)
+        setPatchQuantity(patchQuantity - 1);
+
       const opts = {
         method: 'PATCH',
         headers: { 'Content-type': 'application/json' },
@@ -47,16 +62,16 @@ export default function BasketItem({
           quantity: basketItem.quantity - 1,
         }),
       };
-      setPatchQuantity(patchQuantity - 1);
       fetch(`http://localhost:4000/item/basket/${basketItem.id}`, opts);
       return;
     }
     if (basketItem.quantity === 1) {
+      if (Number(customPatchId) === basketItem.id) setPatchQuantity(0);
+
       const opts = {
         method: 'DELETE',
         headers: { 'Content-type': 'application/json' },
       };
-      setPatchQuantity(0);
       fetch(`http://localhost:4000/item/basket/${basketItem.id}`, opts);
     }
   };
