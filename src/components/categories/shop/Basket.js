@@ -6,6 +6,8 @@ export default function Basket({
   shopItemsList,
   setShopItemsList,
   basketList,
+  patchQuantity,
+  setPatchQuantity,
 }) {
   const [displayBasket, setDisplaybasket] = useState(false);
 
@@ -26,6 +28,8 @@ export default function Basket({
                     setShopItemsList={setShopItemsList}
                     basketItem={basketItem}
                     basketList={basketList}
+                    patchQuantity={patchQuantity}
+                    setPatchQuantity={setPatchQuantity}
                   />
                 );
               })}

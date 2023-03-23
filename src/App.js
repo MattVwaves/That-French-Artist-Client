@@ -15,6 +15,7 @@ function App() {
   const [shopItemsList, setShopItemsList] = useState([]);
   const [basketList, setBasketList] = useState([]);
   const Location = useLocation();
+  const [patchQuantity, setPatchQuantity] = useState(0);
 
   useEffect(() => {
     if (Location.pathname !== '/') setShowTitle(false);
@@ -29,11 +30,14 @@ function App() {
 
   return (
     <>
+      <h1>{patchQuantity}</h1>
       <div className="App">
         <Basket
           basketList={basketList}
           shopItemsList={shopItemsList}
           setShopItemsList={setShopItemsList}
+          patchQuantity={patchQuantity}
+          setPatchQuantity={setPatchQuantity}
         />
         <HomePage showTitle={showTitle} setShowTitle={setShowTitle} />
       </div>
@@ -59,7 +63,12 @@ function App() {
         ></Route>
         <Route
           path="/shop/patches/embroided/custom/:design"
-          element={<CustomPatch />}
+          element={
+            <CustomPatch
+              patchQuantity={patchQuantity}
+              setPatchQuantity={setPatchQuantity}
+            />
+          }
         ></Route>
       </Routes>
     </>

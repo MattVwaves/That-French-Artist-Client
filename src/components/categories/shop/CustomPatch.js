@@ -3,12 +3,16 @@ import { useState, useEffect } from 'react';
 
 import BackIcon from '../../functional/back';
 
-export default function CustomPatch() {
+export default function CustomPatch({ patchQuantity, setPatchQuantity }) {
   const { design } = useParams();
   const [frameColour, setFrameColour] = useState('white');
   const [designColour, setDesignColour] = useState('white');
   const [patchId, setPatchId] = useState(null);
   const basketId = localStorage.getItem('basketId');
+
+  useEffect(() => {
+    // console.log(patchQuantity);
+  });
 
   const handleColour = (e) => {
     const component = e.target.id;
@@ -22,34 +26,73 @@ export default function CustomPatch() {
   };
 
   const handleAddPatch = () => {
+    if (patchQuantity === 0) {
+      const opts = {
+        method: 'POST',
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify({
+          description: `custom-${designColour}-${frameColour}`,
+          category: 'patches',
+          price: '£15.00',
+        }),
+      };
+      fetch(`http://localhost:4000/item/basket/${basketId}`, opts).then((res) =>
+        res.json().then((data) => {
+          localStorage.setItem('custom-patch-id', data.basketItem.id);
+          setPatchId(data.basketItem.id);
+        })
+      );
+      setPatchQuantity(1);
+      localStorage.setItem('custom-patch-quantity', 1);
+      return;
+    }
     const opts = {
-      method: 'POST',
+      method: 'PATCH',
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify({
-        description: `${design}-${frameColour}-${designColour}`,
-        category: 'patches',
-        price: '£15.00',
+        quantity: patchQuantity + 1,
       }),
     };
-    fetch(`http://localhost:4000/item/basket/${basketId}`, opts).then((res) =>
-      res.json().then((data) => {})
-    );
-    return;
 
-    // const opts = {
-    //   method: 'PATCH',
-    //   headers: { 'Content-type': 'application/json' },
-    //   body: JSON.stringify({
-    //     quantity: 1,
-    //   }),
-    // };
+    fetch(`http://localhost:4000/item/basket/${patchId}`, opts)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
+    const newPatchQuantity = patchQuantity + 1;
+    setPatchQuantity(newPatchQuantity);
+    // localStorage.setItem('custom-patch-quantity', newPatchQuantity);
+  };
 
-    // fetch(`http://localhost:4000/item/basket/${patchId}`, opts).then((res) =>
-    //   res.json()
-    // );
-
-    // const newPatchQuantity = patchQuantity + 1;
-    // setPatchQuantity(newPatchQuantity);
+  const handleRemovePatch = () => {
+    if (patchQuantity > 1) {
+      const opts = {
+        method: 'PATCH',
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify({
+          quantity: patchQuantity - 1,
+        }),
+      };
+      fetch(`http://localhost:4000/item/basket/${patchId}`, opts)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+        });
+      const newPatchQuantity = patchQuantity - 1;
+      setPatchQuantity(newPatchQuantity);
+      localStorage.setItem('custom-patch-quantity', newPatchQuantity);
+      return;
+    }
+    if (patchQuantity === 1) {
+      const opts = {
+        method: 'DELETE',
+        headers: { 'Content-type': 'application/json' },
+      };
+      fetch(`http://localhost:4000/item/basket/${patchId}`, opts);
+      setPatchQuantity(0);
+      localStorage.setItem('custom-patch-quantity', null);
+      localStorage.setItem('custom-patch-id', null);
+    }
   };
 
   return (
@@ -113,9 +156,12 @@ export default function CustomPatch() {
           </select>
         </form>
         <span id="custom-patch-price">£15.00</span>
-        <button id="custom-patch-add" onClick={handleAddPatch}>
+        {/* <button id="custom-patch-add" onClick={handleAddPatch}>
           Add to basket
-        </button>
+        </button> */}
+        <button onClick={handleAddPatch}>+</button>
+        <button onClick={handleRemovePatch}>-</button>
+        <span>{patchQuantity}</span>
       </div>
     </>
   );

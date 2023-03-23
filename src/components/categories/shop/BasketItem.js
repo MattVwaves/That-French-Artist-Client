@@ -3,6 +3,8 @@ export default function BasketItem({
   setShopItemsList,
   basketItem,
   basketList,
+  patchQuantity,
+  setPatchQuantity,
 }) {
   const handleBasketStatus = (basketItem) => {
     const foundItem = basketList.find(
@@ -32,7 +34,7 @@ export default function BasketItem({
         quantity: basketItem.quantity + 1,
       }),
     };
-
+    setPatchQuantity(patchQuantity + 1);
     fetch(`http://localhost:4000/item/basket/${basketItem.id}`, opts);
   };
 
@@ -45,6 +47,7 @@ export default function BasketItem({
           quantity: basketItem.quantity - 1,
         }),
       };
+      setPatchQuantity(patchQuantity - 1);
       fetch(`http://localhost:4000/item/basket/${basketItem.id}`, opts);
       return;
     }
@@ -53,6 +56,7 @@ export default function BasketItem({
         method: 'DELETE',
         headers: { 'Content-type': 'application/json' },
       };
+      setPatchQuantity(0);
       fetch(`http://localhost:4000/item/basket/${basketItem.id}`, opts);
     }
   };
