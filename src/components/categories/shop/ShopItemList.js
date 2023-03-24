@@ -7,22 +7,12 @@ export default function ShopItemList({
   basketList,
   setBasketList,
 }) {
-  const [basketId, setBasketId] = useState(undefined);
+  const [basketId, setBasketId] = useState(localStorage.getItem('basketId'));
   const apiUrl = 'http://localhost:4000';
 
-  useEffect(() => {
-    setBasketId(localStorage.getItem('basketId'));
-    if (basketId) {
-      fetch(`${apiUrl}/basket/${basketId}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setBasketList(data.basket.basketItems);
-        });
-    }
-  }, [basketList]);
   // If no local basket yet then create basket
   const handleCartStatus = (shopItem) => {
-    if (localStorage.getItem('basketId') === null) {
+    if (basketId === null) {
       const opts = {
         method: 'POST',
         headers: { 'Content-type': 'application/json' },
@@ -37,6 +27,7 @@ export default function ShopItemList({
         .then((data) => {
           setBasketList(data.basket.basketItems);
           localStorage.setItem('basketId', data.basket.id);
+          setBasketId(data.basket.id);
         });
       // update basketStatus of shop item
       const updatedItemsList = shopItemsList.map((storedItem) => {
@@ -62,16 +53,21 @@ export default function ShopItemList({
           price: shopItem.price,
         }),
       };
-      fetch(`${apiUrl}/item/basket/${basketId}`, opts);
+      fetch(`${apiUrl}/item/basket/${basketId}`, opts)
+        .then((res) => res.json())
+        .then((data) => setBasketList([...basketList, data.basketItem]));
     }
     // If item is already in basket delete basket item
     if (foundItem) {
-      console.log(foundItem);
       const opts = {
         method: 'DELETE',
         headers: { 'Content-type': 'application/json' },
       };
       fetch(`${apiUrl}/item/basket/${foundItem.id}`, opts);
+      const updatedBasketList = basketList.filter(
+        (storedItem) => storedItem.id !== foundItem.id
+      );
+      setBasketList(updatedBasketList);
     }
     // Update shop item basket status
     const updatedItemsList = shopItemsList.map((storedItem) => {

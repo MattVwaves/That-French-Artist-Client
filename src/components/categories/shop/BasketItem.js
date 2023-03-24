@@ -5,6 +5,7 @@ export default function BasketItem({
   setShopItemsList,
   basketItem,
   basketList,
+  setBasketList,
   patchQuantity,
   setPatchQuantity,
 }) {
@@ -25,6 +26,10 @@ export default function BasketItem({
         headers: { 'Content-type': 'application/json' },
       };
       fetch(`http://localhost:4000/item/basket/${basketItem.id}`, opts);
+      const updatedBasketList = basketList.filter(
+        (storedItem) => storedItem.id !== basketItem.id
+      );
+      setBasketList(updatedBasketList);
     }
     const updatedItemsList = shopItemsList.map((storedItem) => {
       if (storedItem.description === basketItem.description) {

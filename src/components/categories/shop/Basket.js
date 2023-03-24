@@ -6,6 +6,7 @@ export default function Basket({
   shopItemsList,
   setShopItemsList,
   basketList,
+  setBasketList,
   patchQuantity,
   setPatchQuantity,
 }) {
@@ -28,6 +29,7 @@ export default function Basket({
                     setShopItemsList={setShopItemsList}
                     basketItem={basketItem}
                     basketList={basketList}
+                    setBasketList={setBasketList}
                     patchQuantity={patchQuantity}
                     setPatchQuantity={setPatchQuantity}
                   />

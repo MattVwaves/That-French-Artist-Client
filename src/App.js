@@ -18,21 +18,20 @@ function App() {
   const [patchQuantity, setPatchQuantity] = useState(0);
 
   useEffect(() => {
-    // if (Location.pathname !== '/') setShowTitle(false);
-
     const basketId = localStorage.getItem('basketId');
     if (basketId) {
       fetch(`http://localhost:4000/basket/${basketId}`)
         .then((res) => res.json())
         .then((data) => setBasketList(data.basket.basketItems));
     }
-  }, [Location, basketList]);
+  }, []);
 
   return (
     <>
       <div className="App">
         <Basket
           basketList={basketList}
+          setBasketList={setBasketList}
           shopItemsList={shopItemsList}
           setShopItemsList={setShopItemsList}
           patchQuantity={patchQuantity}
