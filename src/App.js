@@ -1,5 +1,5 @@
 import './App.css';
-import { Route, Routes, useLocation } from 'react-router';
+import { Route, Routes } from 'react-router';
 import { useState, useEffect } from 'react';
 
 import Title from './components/home/Title';
@@ -11,66 +11,14 @@ import PatchCategory from './components/categories/shop/PatchCategory';
 import CustomPatch from './components/categories/shop/CustomPatch';
 import Basket from './components/categories/shop/Basket';
 
-import { useShopContext } from './context/shop';
-
 function App() {
-  const [count, setCount] = useState(0);
-
   const [shopItemsList, setShopItemsList] = useState(
     JSON.parse(window.localStorage.getItem('shop-items-list'))
   );
   const [basketList, setBasketList] = useState(
     JSON.parse(window.localStorage.getItem('basket-list'))
   );
-  const Location = useLocation();
   const [patchQuantity, setPatchQuantity] = useState(0);
-
-  const { getBasket } = useShopContext();
-
-  useEffect(() => {
-    setCount(Number(localStorage.getItem('count')));
-  });
-
-  useEffect(() => {
-    window.addEventListener('beforeunload', alertUser);
-    return () => {
-      window.removeEventListener('beforeunload', alertUser);
-    };
-  }, []);
-
-  const alertUser = (e) => {
-    e.preventDefault();
-    localStorage.setItem('count', 1);
-  };
-
-  useEffect(() => {
-    const storedShopItemsList = JSON.parse(
-      window.localStorage.getItem('shop-items-list')
-    );
-    const storedBasketList = JSON.parse(
-      window.localStorage.getItem('basket-list')
-    );
-
-    const foundItem = (arr, shopItem) => {
-      return arr.find((arr) => shopItem.description === arr.description);
-    };
-
-    if (storedBasketList) {
-      const updatedShopItemsList = storedShopItemsList.map((shopItem) => {
-        if (foundItem(storedBasketList, shopItem))
-          return { ...shopItem, basketStatus: 'Remove from basket' };
-        return shopItem;
-      });
-      setShopItemsList(updatedShopItemsList);
-    }
-  }, [count]);
-
-  useEffect(() => {
-    const basketId = localStorage.getItem('basketId');
-    if (basketId) {
-      getBasket(basketId, setBasketList);
-    }
-  });
 
   return (
     <>
