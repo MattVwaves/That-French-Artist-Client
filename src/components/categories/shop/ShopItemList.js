@@ -9,9 +9,11 @@ export default function ShopItemList({
   basketList,
   setBasketList,
 }) {
-  const [basketId, setBasketId] = useState(localStorage.getItem('basketId'));
+  const [basketId, setBasketId] = useState(
+    window.localStorage.getItem('basketId')
+  );
   const apiUrl = 'http://localhost:4000';
-  const { createFirstBasketItem } = useShopContext();
+  const { createFirstBasketItem, createBasketItem } = useShopContext();
 
   const handleCartStatus = async (shopItem) => {
     if (basketId === null) {
@@ -27,28 +29,11 @@ export default function ShopItemList({
     const foundItem = basketList.find(
       (basketItem) => basketItem.description === shopItem.description
     );
+
     if (!foundItem) {
-      const opts = {
-        method: 'POST',
-        headers: { 'Content-type': 'application/json' },
-        body: JSON.stringify({
-          description: shopItem.description,
-          category: shopItem.category,
-          price: shopItem.price,
-        }),
-      };
-      fetch(`${apiUrl}/item/basket/${basketId}`, opts)
-        .then((res) => res.json())
-        .then((data) => {
-          const updatedBasketList = [...basketList, data.basketItem];
-          setBasketList(updatedBasketList);
-          window.localStorage.setItem(
-            'basket-list',
-            JSON.stringify(updatedBasketList)
-          );
-        });
+      await createBasketItem(shopItem, basketId, setBasketList, basketList);
     }
-    // If item is already in basket delete basket item
+
     if (foundItem) {
       const opts = {
         method: 'DELETE',

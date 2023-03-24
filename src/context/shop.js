@@ -10,14 +10,8 @@ const ShopProvider = ({ children }) => {
       .then((data) => setBasketList(data.basket.basketItems));
   };
 
-  const createFirstBasketItem = async (
-    shopItem,
-    shopItemsList,
-    setShopItemsList,
-    setBasketList,
-    setBasketId
-  ) => {
-    const opts = {
+  const opts = (shopItem) => {
+    return {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify({
@@ -26,12 +20,21 @@ const ShopProvider = ({ children }) => {
         price: shopItem.price,
       }),
     };
-    await fetch(`${apiUrl}/basket`, opts)
+  };
+
+  const createFirstBasketItem = async (
+    shopItem,
+    shopItemsList,
+    setShopItemsList,
+    setBasketList,
+    setBasketId
+  ) => {
+    await fetch(`${apiUrl}/basket`, opts(shopItem))
       .then((res) => res.json())
       .then((data) => {
         const basketList = data.basket.basketItems;
         setBasketList(basketList);
-        localStorage.setItem('basketId', data.basket.id);
+        window.localStorage.setItem('basketId', data.basket.id);
         setBasketId(data.basket.id);
         window.localStorage.setItem('basket-list', JSON.stringify(basketList));
       });
@@ -44,9 +47,28 @@ const ShopProvider = ({ children }) => {
     return;
   };
 
+  const createBasketItem = async (
+    shopItem,
+    basketId,
+    setBasketList,
+    basketList
+  ) => {
+    await fetch(`${apiUrl}/item/basket/${Number(basketId)}`, opts(shopItem))
+      .then((res) => res.json())
+      .then((data) => {
+        const updatedBasketList = [...basketList, data.basketItem];
+        setBasketList(updatedBasketList);
+        window.localStorage.setItem(
+          'basket-list',
+          JSON.stringify(updatedBasketList)
+        );
+      });
+  };
+
   const value = {
     getBasket,
     createFirstBasketItem,
+    createBasketItem,
   };
 
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;
