@@ -56,6 +56,7 @@ export default function BasketItem({
     if (Number(customPatchId) === basketItem.id) {
       console.log(customPatchId);
       setPatchQuantity(patchQuantity + 1);
+      window.localStorage.setItem('custom-patch-quantity', patchQuantity + 1);
     }
     const opts = {
       method: 'PATCH',
@@ -74,8 +75,6 @@ export default function BasketItem({
         });
         setBasketList(updatedBasketList);
         setLocalBasket(updatedBasketList);
-        const newPatchQuantity = patchQuantity + 1;
-        setPatchQuantity(newPatchQuantity);
       });
   };
 
@@ -83,6 +82,7 @@ export default function BasketItem({
     if (basketItem.quantity > 1) {
       if (Number(customPatchId) === basketItem.id)
         setPatchQuantity(patchQuantity - 1);
+      window.localStorage.setItem('custom-patch-quantity', patchQuantity - 1);
 
       const opts = {
         method: 'PATCH',
@@ -101,12 +101,14 @@ export default function BasketItem({
           });
           setBasketList(updatedBasketList);
           setLocalBasket(updatedBasketList);
-          const newPatchQuantity = patchQuantity - 1;
-          setPatchQuantity(newPatchQuantity);
         });
     }
     if (basketItem.quantity === 1) {
-      if (Number(customPatchId) === basketItem.id) setPatchQuantity(0);
+      if (Number(customPatchId) === basketItem.id) {
+        setPatchQuantity(0);
+        window.localStorage.setItem('custom-patch-quantity', 0);
+        window.localStorage.setItem('custom-patch-id', null);
+      }
 
       const opts = {
         method: 'DELETE',
@@ -121,8 +123,6 @@ export default function BasketItem({
           });
           setBasketList(updatedBasketList);
           setLocalBasket(updatedBasketList);
-          setPatchQuantity(0);
-          localStorage.setItem('custom-patch-id', null);
         });
     }
   };

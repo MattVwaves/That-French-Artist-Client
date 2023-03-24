@@ -18,7 +18,17 @@ function App() {
   const [basketList, setBasketList] = useState(
     JSON.parse(window.localStorage.getItem('basket-list'))
   );
-  const [patchQuantity, setPatchQuantity] = useState(0);
+  const [patchQuantity, setPatchQuantity] = useState(
+    JSON.parse(window.localStorage.getItem('custom-patch-quantity'))
+  );
+
+  useEffect(() => {
+    if (
+      JSON.parse(window.localStorage.getItem('custom-patch-quantity')) === null
+    ) {
+      setPatchQuantity(0);
+    }
+  });
 
   return (
     <>

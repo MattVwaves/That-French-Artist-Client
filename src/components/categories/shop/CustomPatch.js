@@ -60,7 +60,7 @@ export default function CustomPatch({
       };
       fetch(`http://localhost:4000/item/basket/${basketId}`, opts).then((res) =>
         res.json().then((data) => {
-          localStorage.setItem('custom-patch-id', data.basketItem.id);
+          window.localStorage.setItem('custom-patch-id', data.basketItem.id);
           const updatedBasketList = [...basketList, data.basketItem];
           console.log(data.basketItem);
           setBasketList(updatedBasketList);
@@ -70,7 +70,7 @@ export default function CustomPatch({
       );
       setPatchQuantity(1);
 
-      localStorage.setItem('custom-patch-quantity', 1);
+      window.localStorage.setItem('custom-patch-quantity', 1);
       return;
     }
     const opts = {
@@ -93,6 +93,7 @@ export default function CustomPatch({
         setLocalBasket(updatedBasketList);
         const newPatchQuantity = patchQuantity + 1;
         setPatchQuantity(newPatchQuantity);
+        window.localStorage.setItem('custom-patch-quantity', newPatchQuantity);
       });
   };
 
@@ -117,6 +118,10 @@ export default function CustomPatch({
           setLocalBasket(updatedBasketList);
           const newPatchQuantity = patchQuantity - 1;
           setPatchQuantity(newPatchQuantity);
+          window.localStorage.setItem(
+            'custom-patch-quantity',
+            newPatchQuantity
+          );
         });
     }
     if (patchQuantity === 1) {
@@ -133,11 +138,10 @@ export default function CustomPatch({
           });
           setBasketList(updatedBasketList);
           setLocalBasket(updatedBasketList);
-          const newPatchQuantity = patchQuantity - 1;
-          setPatchQuantity(newPatchQuantity);
+          setPatchQuantity(0);
+          window.localStorage.setItem('custom-patch-quantity', 0);
+          window.localStorage.setItem('cistom-patch-id', null);
         });
-      setPatchQuantity(0);
-      localStorage.setItem('custom-patch-id', null);
     }
   };
 
