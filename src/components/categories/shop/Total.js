@@ -5,14 +5,16 @@ export default function Total({ basketList }) {
 
   useEffect(() => {
     let total = 0;
-    basketList.forEach((basketItem) => {
-      const price = basketItem.price.slice(1);
-      const quantity = basketItem.quantity;
-      const subTotal = price * quantity;
-      const subTotalInt = parseFloat(subTotal);
+    if (basketList) {
+      basketList.forEach((basketItem) => {
+        const price = basketItem.price.slice(1);
+        const quantity = basketItem.quantity;
+        const subTotal = price * quantity;
+        const subTotalInt = parseFloat(subTotal);
 
-      total += subTotalInt;
-    });
+        total += subTotalInt;
+      });
+    }
     setTotal(total.toFixed(2));
   });
 

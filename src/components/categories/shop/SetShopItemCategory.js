@@ -22,6 +22,7 @@ export default function SetShopItemCategory({
 
           const shopItemsWithAddToBasket = itemsList.map((shopItem) => {
             if (
+              basketList &&
               basketList.find(
                 (basketItem) => basketItem.description === shopItem.description
               )
@@ -31,6 +32,10 @@ export default function SetShopItemCategory({
             return { ...shopItem, basketStatus: 'Add to basket' };
           });
           setShopItemsList(shopItemsWithAddToBasket);
+          window.localStorage.setItem(
+            'shop-items-list',
+            JSON.stringify(shopItemsWithAddToBasket)
+          );
         });
     }
     if (category === 'patches') {

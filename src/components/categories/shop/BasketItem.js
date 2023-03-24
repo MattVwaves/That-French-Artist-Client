@@ -16,7 +16,8 @@ export default function BasketItem({
     setCustomPatchId(customPatchId);
   });
 
-  const handleBasketStatus = (basketItem) => {
+  const handleBasketStatus = (e, basketItem) => {
+    e.preventDefault();
     const foundItem = basketList.find(
       (storedItem) => basketItem.description === storedItem.description
     );
@@ -30,6 +31,10 @@ export default function BasketItem({
         (storedItem) => storedItem.id !== basketItem.id
       );
       setBasketList(updatedBasketList);
+      window.localStorage.setItem(
+        'basket-list',
+        JSON.stringify(updatedBasketList)
+      );
     }
     const updatedItemsList = shopItemsList.map((storedItem) => {
       if (storedItem.description === basketItem.description) {
@@ -91,7 +96,7 @@ export default function BasketItem({
             width="50px"
           />
           <span> {basketItem.price}</span>
-          <button onClick={() => handleBasketStatus(basketItem)}>
+          <button onClick={(e) => handleBasketStatus(e, basketItem)}>
             Remove from basket
           </button>
         </li>

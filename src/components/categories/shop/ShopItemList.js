@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import BackIcon from '../../functional/back';
 import { useShopContext } from '../../../context/shop';
+import { useLocation } from 'react-router';
 
 export default function ShopItemList({
   shopItemsList,
@@ -38,7 +39,14 @@ export default function ShopItemList({
       };
       fetch(`${apiUrl}/item/basket/${basketId}`, opts)
         .then((res) => res.json())
-        .then((data) => setBasketList([...basketList, data.basketItem]));
+        .then((data) => {
+          const updatedBasketList = [...basketList, data.basketItem];
+          setBasketList(updatedBasketList);
+          window.localStorage.setItem(
+            'basket-list',
+            JSON.stringify(updatedBasketList)
+          );
+        });
     }
     // If item is already in basket delete basket item
     if (foundItem) {
@@ -51,6 +59,10 @@ export default function ShopItemList({
         (storedItem) => storedItem.id !== foundItem.id
       );
       setBasketList(updatedBasketList);
+      window.localStorage.setItem(
+        'basket-list',
+        JSON.stringify(updatedBasketList)
+      );
     }
     // Update shop item basket status
     const updatedItemsList = shopItemsList.map((storedItem) => {

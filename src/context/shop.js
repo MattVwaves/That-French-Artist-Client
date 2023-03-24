@@ -29,9 +29,11 @@ const ShopProvider = ({ children }) => {
     await fetch(`${apiUrl}/basket`, opts)
       .then((res) => res.json())
       .then((data) => {
-        setBasketList(data.basket.basketItems);
+        const basketList = data.basket.basketItems;
+        setBasketList(basketList);
         localStorage.setItem('basketId', data.basket.id);
         setBasketId(data.basket.id);
+        window.localStorage.setItem('basket-list', JSON.stringify(basketList));
       });
     const updatedItemsList = shopItemsList.map((storedItem) => {
       if (storedItem.id === shopItem.id)
