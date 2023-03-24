@@ -59,6 +59,8 @@ function App() {
             <CustomPatch
               patchQuantity={patchQuantity}
               setPatchQuantity={setPatchQuantity}
+              basketList={basketList}
+              setBasketList={setBasketList}
             />
           }
         ></Route>

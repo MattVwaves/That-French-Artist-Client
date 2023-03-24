@@ -3,12 +3,24 @@ import { useState, useEffect } from 'react';
 
 import BackIcon from '../../functional/back';
 
-export default function CustomPatch({ patchQuantity, setPatchQuantity }) {
+export default function CustomPatch({
+  patchQuantity,
+  setPatchQuantity,
+  basketList,
+  setBasketList,
+}) {
   const { design } = useParams();
   const [frameColour, setFrameColour] = useState('white');
   const [designColour, setDesignColour] = useState('white');
   const [patchId, setPatchId] = useState(null);
   const basketId = localStorage.getItem('basketId');
+
+  const setLocalBasket = async (updatedBasketList) => {
+    window.localStorage.setItem(
+      'basket-list',
+      JSON.stringify(updatedBasketList)
+    );
+  };
 
   useEffect(() => {
     const storedFrameColour = localStorage.getItem('frame-colour');
@@ -49,10 +61,15 @@ export default function CustomPatch({ patchQuantity, setPatchQuantity }) {
       fetch(`http://localhost:4000/item/basket/${basketId}`, opts).then((res) =>
         res.json().then((data) => {
           localStorage.setItem('custom-patch-id', data.basketItem.id);
+          const updatedBasketList = [...basketList, data.basketItem];
+          console.log(data.basketItem);
+          setBasketList(updatedBasketList);
+          setLocalBasket(updatedBasketList);
           setPatchId(data.basketItem.id);
         })
       );
       setPatchQuantity(1);
+
       localStorage.setItem('custom-patch-quantity', 1);
       return;
     }
@@ -64,9 +81,19 @@ export default function CustomPatch({ patchQuantity, setPatchQuantity }) {
       }),
     };
 
-    fetch(`http://localhost:4000/item/basket/${patchId}`, opts);
-    const newPatchQuantity = patchQuantity + 1;
-    setPatchQuantity(newPatchQuantity);
+    fetch(`http://localhost:4000/item/basket/${patchId}`, opts)
+      .then((res) => res.json())
+      .then((data) => {
+        const updatedPatch = data.updatedBasketItem;
+        const updatedBasketList = basketList.map((basketItem) => {
+          if (basketItem.id === updatedPatch.id) return updatedPatch;
+          return basketItem;
+        });
+        setBasketList(updatedBasketList);
+        setLocalBasket(updatedBasketList);
+        const newPatchQuantity = patchQuantity + 1;
+        setPatchQuantity(newPatchQuantity);
+      });
   };
 
   const handleRemovePatch = () => {
@@ -78,17 +105,37 @@ export default function CustomPatch({ patchQuantity, setPatchQuantity }) {
           quantity: patchQuantity - 1,
         }),
       };
-      fetch(`http://localhost:4000/item/basket/${patchId}`, opts);
-      const newPatchQuantity = patchQuantity - 1;
-      setPatchQuantity(newPatchQuantity);
-      return;
+      fetch(`http://localhost:4000/item/basket/${patchId}`, opts)
+        .then((res) => res.json())
+        .then((data) => {
+          const updatedPatch = data.updatedBasketItem;
+          const updatedBasketList = basketList.map((basketItem) => {
+            if (basketItem.id === updatedPatch.id) return updatedPatch;
+            return basketItem;
+          });
+          setBasketList(updatedBasketList);
+          setLocalBasket(updatedBasketList);
+          const newPatchQuantity = patchQuantity - 1;
+          setPatchQuantity(newPatchQuantity);
+        });
     }
     if (patchQuantity === 1) {
       const opts = {
         method: 'DELETE',
         headers: { 'Content-type': 'application/json' },
       };
-      fetch(`http://localhost:4000/item/basket/${patchId}`, opts);
+      fetch(`http://localhost:4000/item/basket/${patchId}`, opts)
+        .then((res) => res.json())
+        .then((data) => {
+          const deletedPatch = data.basketItem;
+          const updatedBasketList = basketList.filter((basketItem) => {
+            return basketItem.id !== deletedPatch.id;
+          });
+          setBasketList(updatedBasketList);
+          setLocalBasket(updatedBasketList);
+          const newPatchQuantity = patchQuantity - 1;
+          setPatchQuantity(newPatchQuantity);
+        });
       setPatchQuantity(0);
       localStorage.setItem('custom-patch-id', null);
     }
