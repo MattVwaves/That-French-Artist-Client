@@ -6,10 +6,9 @@ import BackIcon from '../../functional/back';
 export default function PatchDesigns() {
   const Navigate = useNavigate();
 
-  const [patchDesignSelected, setPatchDesignSelected] = useState(undefined);
-
   const handleShowPatch = (e) => {
     const patchDesign = e.target.name;
+    window.localStorage.setItem('custom-patch-quantity', 0);
     Navigate(`/shop/patches/embroided/custom/${patchDesign}`);
   };
   return (

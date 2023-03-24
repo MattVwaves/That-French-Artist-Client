@@ -15,6 +15,10 @@ export default function CustomPatch({
   const [patchId, setPatchId] = useState(null);
   const basketId = localStorage.getItem('basketId');
 
+  useEffect(() => {
+    setPatchQuantity(0);
+  }, [design]);
+
   const setLocalBasket = async (updatedBasketList) => {
     window.localStorage.setItem(
       'basket-list',
