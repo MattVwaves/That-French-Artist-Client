@@ -10,6 +10,13 @@ const ShopProvider = ({ children }) => {
       .then((data) => setBasketList(data.basket.basketItems));
   };
 
+  const setLocalBasket = async (updatedBasketList) => {
+    window.localStorage.setItem(
+      'basket-list',
+      JSON.stringify(updatedBasketList)
+    );
+  };
+
   const opts = (shopItem) => {
     return {
       method: 'POST',
@@ -32,11 +39,11 @@ const ShopProvider = ({ children }) => {
     await fetch(`${apiUrl}/basket`, opts(shopItem))
       .then((res) => res.json())
       .then((data) => {
-        const basketList = data.basket.basketItems;
-        setBasketList(basketList);
+        const updatedBasketList = data.basket.basketItems;
+        setBasketList(updatedBasketList);
         window.localStorage.setItem('basketId', data.basket.id);
+        setLocalBasket(updatedBasketList);
         setBasketId(data.basket.id);
-        window.localStorage.setItem('basket-list', JSON.stringify(basketList));
       });
     const updatedItemsList = shopItemsList.map((storedItem) => {
       if (storedItem.id === shopItem.id)
@@ -58,17 +65,51 @@ const ShopProvider = ({ children }) => {
       .then((data) => {
         const updatedBasketList = [...basketList, data.basketItem];
         setBasketList(updatedBasketList);
-        window.localStorage.setItem(
-          'basket-list',
-          JSON.stringify(updatedBasketList)
-        );
+        setLocalBasket(updatedBasketList);
       });
+  };
+
+  const deleteBasketItem = async (foundItem, basketList, setBasketList) => {
+    const opts = {
+      method: 'DELETE',
+      headers: { 'Content-type': 'application/json' },
+    };
+    fetch(`${apiUrl}/item/basket/${foundItem.id}`, opts);
+    const updatedBasketList = basketList.filter(
+      (storedItem) => storedItem.id !== foundItem.id
+    );
+    setBasketList(updatedBasketList);
+    setLocalBasket(updatedBasketList);
+  };
+
+  const updateShopItemsList = async (
+    shopItem,
+    shopItemsList,
+    setShopItemsList
+  ) => {
+    const updatedShopItemsList = shopItemsList.map((storedItem) => {
+      if (
+        storedItem.id === shopItem.id &&
+        storedItem.basketStatus === 'Add to basket'
+      )
+        return { ...storedItem, basketStatus: 'Remove from basket' };
+      if (
+        storedItem.id === shopItem.id &&
+        storedItem.basketStatus === 'Remove from basket'
+      )
+        return { ...storedItem, basketStatus: 'Add to basket' };
+
+      return storedItem;
+    });
+    setShopItemsList(updatedShopItemsList);
   };
 
   const value = {
     getBasket,
     createFirstBasketItem,
     createBasketItem,
+    deleteBasketItem,
+    updateShopItemsList,
   };
 
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;

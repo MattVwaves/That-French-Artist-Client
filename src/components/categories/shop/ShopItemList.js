@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import BackIcon from '../../functional/back';
 import { useShopContext } from '../../../context/shop';
-import { useLocation } from 'react-router';
 
 export default function ShopItemList({
   shopItemsList,
@@ -12,8 +11,12 @@ export default function ShopItemList({
   const [basketId, setBasketId] = useState(
     window.localStorage.getItem('basketId')
   );
-  const apiUrl = 'http://localhost:4000';
-  const { createFirstBasketItem, createBasketItem } = useShopContext();
+  const {
+    createFirstBasketItem,
+    createBasketItem,
+    deleteBasketItem,
+    updateShopItemsList,
+  } = useShopContext();
 
   const handleCartStatus = async (shopItem) => {
     if (basketId === null) {
@@ -35,36 +38,10 @@ export default function ShopItemList({
     }
 
     if (foundItem) {
-      const opts = {
-        method: 'DELETE',
-        headers: { 'Content-type': 'application/json' },
-      };
-      fetch(`${apiUrl}/item/basket/${foundItem.id}`, opts);
-      const updatedBasketList = basketList.filter(
-        (storedItem) => storedItem.id !== foundItem.id
-      );
-      setBasketList(updatedBasketList);
-      window.localStorage.setItem(
-        'basket-list',
-        JSON.stringify(updatedBasketList)
-      );
+      await deleteBasketItem(foundItem, basketList, setBasketList);
     }
-    // Update shop item basket status
-    const updatedItemsList = shopItemsList.map((storedItem) => {
-      if (
-        storedItem.id === shopItem.id &&
-        storedItem.basketStatus === 'Add to basket'
-      )
-        return { ...storedItem, basketStatus: 'Remove from basket' };
-      if (
-        storedItem.id === shopItem.id &&
-        storedItem.basketStatus === 'Remove from basket'
-      )
-        return { ...storedItem, basketStatus: 'Add to basket' };
 
-      return storedItem;
-    });
-    setShopItemsList(updatedItemsList);
+    updateShopItemsList(shopItem, shopItemsList, setShopItemsList);
   };
 
   return (
