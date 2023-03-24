@@ -11,20 +11,22 @@ import PatchCategory from './components/categories/shop/PatchCategory';
 import CustomPatch from './components/categories/shop/CustomPatch';
 import Basket from './components/categories/shop/Basket';
 
+import { useShopContext } from './context/shop';
+
 function App() {
   const [shopItemsList, setShopItemsList] = useState([]);
   const [basketList, setBasketList] = useState([]);
   const Location = useLocation();
   const [patchQuantity, setPatchQuantity] = useState(0);
 
+  const { getBasket } = useShopContext();
+
   useEffect(() => {
     const basketId = localStorage.getItem('basketId');
     if (basketId) {
-      fetch(`http://localhost:4000/basket/${basketId}`)
-        .then((res) => res.json())
-        .then((data) => setBasketList(data.basket.basketItems));
+      getBasket(basketId, setBasketList);
     }
-  }, []);
+  });
 
   return (
     <>

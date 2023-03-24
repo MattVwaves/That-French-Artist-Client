@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import BackIcon from '../../functional/back';
+import { useShopContext } from '../../../context/shop';
 
 export default function ShopItemList({
   shopItemsList,
@@ -9,40 +10,22 @@ export default function ShopItemList({
 }) {
   const [basketId, setBasketId] = useState(localStorage.getItem('basketId'));
   const apiUrl = 'http://localhost:4000';
+  const { createFirstBasketItem } = useShopContext();
 
-  // If no local basket yet then create basket
-  const handleCartStatus = (shopItem) => {
+  const handleCartStatus = async (shopItem) => {
     if (basketId === null) {
-      const opts = {
-        method: 'POST',
-        headers: { 'Content-type': 'application/json' },
-        body: JSON.stringify({
-          description: shopItem.description,
-          category: shopItem.category,
-          price: shopItem.price,
-        }),
-      };
-      fetch(`${apiUrl}/basket`, opts)
-        .then((res) => res.json())
-        .then((data) => {
-          setBasketList(data.basket.basketItems);
-          localStorage.setItem('basketId', data.basket.id);
-          setBasketId(data.basket.id);
-        });
-      // update basketStatus of shop item
-      const updatedItemsList = shopItemsList.map((storedItem) => {
-        if (storedItem.id === shopItem.id)
-          return { ...storedItem, basketStatus: 'Remove from basket' };
-        return storedItem;
-      });
-      setShopItemsList(updatedItemsList);
+      await createFirstBasketItem(
+        shopItem,
+        shopItemsList,
+        setShopItemsList,
+        setBasketList,
+        setBasketId
+      );
       return;
     }
-    // If there is local basket check for item in basket
     const foundItem = basketList.find(
       (basketItem) => basketItem.description === shopItem.description
     );
-    // If item isn't in basket create basket item
     if (!foundItem) {
       const opts = {
         method: 'POST',
