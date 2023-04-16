@@ -117,11 +117,16 @@ button {
 
 /* categories */
 
-#category-list {
+/* #category-list {
   display: grid;
   grid-column-gap: 30px;
   grid-template-columns: repeat(2, 110px);
   padding: 1px;
+} */
+
+#category-list {
+  display: inline-block;
+  width: 100vw;
 }
 
 .category {
@@ -138,12 +143,19 @@ button {
 }
 
 .category img {
-  display: block;
+  /* display: block; */
   margin-left: auto;
   margin-right: auto;
+  height: 20vh;
 }
 
 /*  display items */
+
+#display-image {
+  margin-left: auto;
+  margin-right: auto;
+  height: 30vh;
+}
 
 .display-items {
   text-align: center;
@@ -186,7 +198,8 @@ button {
   grid-template-columns: repeat(2, 150px);
   grid-column-gap: 10px;
   position: absolute;
-  margin-top: 55vh;
+  height: 100%;
+  margin-top: 20vh;
 }
 
 .adding-removing-items span {

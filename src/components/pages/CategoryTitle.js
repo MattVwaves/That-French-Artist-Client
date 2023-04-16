@@ -15,7 +15,7 @@ export default function CategoryTitle({ category, page, i }) {
         <img
           key={i}
           src={require(`../../assets/categories/${category}.png`)}
-          height="100px"
+          // height="200px"
           alt={category}
         />
       </Link>
