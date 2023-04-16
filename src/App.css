@@ -54,7 +54,7 @@ button {
 #music,
 #about {
   position: fixed;
-  font-size: 20px;
+  font-size: 4vh;
   background-color: transparent !important;
   z-index: 1;
 }
@@ -71,6 +71,8 @@ button {
   position: fixed;
   z-index: 1;
   background-color: transparent !important;
+  width: 20vw;
+  object-fit: cover;
 }
 
 #images {

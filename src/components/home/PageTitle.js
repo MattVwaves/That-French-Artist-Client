@@ -5,7 +5,7 @@ export default function PageTitle({ pageTitle }) {
     <>
       <img
         src={require(`../../assets/home/${pageTitle}.png`)}
-        height="100px"
+        // height="100px"
         alt="page"
       />
       <h2 id={pageTitle}>
