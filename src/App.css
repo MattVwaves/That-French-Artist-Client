@@ -126,7 +126,7 @@ button {
 
 #category-list {
   display: inline-block;
-  /* width: 100vw; */
+  width: 100vw;
 }
 
 .category {
