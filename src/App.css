@@ -126,7 +126,7 @@ button {
 
 #category-list {
   display: inline-block;
-  width: 100vw;
+  /* width: 100vw; */
 }
 
 .category {
@@ -195,11 +195,11 @@ button {
 /* clothes jewellery other  */
 
 #category-list.container-center.shop-item-list {
-  grid-template-columns: repeat(2, 150px);
-  grid-column-gap: 10px;
   position: absolute;
-  height: 100%;
-  margin-top: 20vh;
+  /* padding-top: 300px; */
+  transform: translate(-50%, -50%);
+  height: 60%;
+  width: 60vw;
 }
 
 .adding-removing-items span {
