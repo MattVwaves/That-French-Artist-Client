@@ -25,7 +25,6 @@ span {
   font-size: 30px;
   display: block;
   width: fit-content;
-  /* position: fixed; */
 }
 
 button {
@@ -64,11 +63,6 @@ button {
   z-index: 1;
 }
 
-/* .pages img:first-child {
-  position: fixed;
-  z-index: 1;
-  background-color: transparent !important;
-} */
 .pages img:first-child,
 .pages img:nth-child(3),
 .pages img:nth-child(5),
@@ -78,6 +72,24 @@ button {
   background-color: transparent !important;
   width: 20vw;
   object-fit: cover;
+}
+
+@media only screen and (max-width: 1000px) {
+  .pages img:first-child,
+  .pages img:nth-child(3),
+  .pages img:nth-child(5),
+  .pages img:nth-child(7) {
+    width: 35vw;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  #shop,
+  #images,
+  #music,
+  #about {
+    font-size: 3vh;
+  }
 }
 
 #images {
@@ -121,13 +133,6 @@ button {
 }
 
 /* categories */
-
-/* #category-list {
-  display: grid;
-  grid-column-gap: 30px;
-  grid-template-columns: repeat(2, 110px);
-  padding: 1px;
-} */
 
 #category-list {
   display: inline-block;
