@@ -10,7 +10,7 @@ export default function BackIcon() {
 
   return (
     <div className="back-icon">
-      <img src={Back} alt="back" height="50px" onClick={handleGoBack} />
+      <img src={Back} alt="back" onClick={handleGoBack} />
     </div>
   );
 }

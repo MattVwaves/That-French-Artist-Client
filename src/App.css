@@ -9,11 +9,16 @@
 .back-icon {
   position: fixed;
   top: 5%;
-  left: 40%;
+  left: 50%;
   transform: translate(-50%, -50%);
   background-color: transparent !important;
   z-index: 1;
-  box-shadow: 5px 5px black;
+  box-shadow: 0.2vw 0.2vw black;
+}
+
+.back-icon img {
+  height: 5vh;
+  min-width: 30px;
 }
 
 span {
