@@ -29,6 +29,37 @@ const ShopProvider = ({ children }) => {
     };
   };
 
+  const patchOpts = (description, category, price) => {
+    return {
+      method: 'POST',
+      headers: { 'Content-type': 'application/json' },
+      body: JSON.stringify({
+        description,
+        category,
+        price,
+      }),
+    };
+  };
+
+  const createFirstBasketItemPatch = async (
+    description,
+    category,
+    price,
+    setBasketList,
+    setBasketId
+  ) => {
+    await fetch(`${apiUrl}/basket`, patchOpts(description, category, price))
+      .then((res) => res.json())
+      .then((data) => {
+        const updatedBasketList = data.basket.basketItems;
+        setBasketList(updatedBasketList);
+        window.localStorage.setItem('basketId', data.basket.id);
+        setLocalBasket(updatedBasketList);
+        setBasketId(data.basket.id);
+      });
+    return;
+  };
+
   const createFirstBasketItem = async (
     shopItem,
     shopItemsList,
@@ -106,6 +137,7 @@ const ShopProvider = ({ children }) => {
 
   const value = {
     getBasket,
+    createFirstBasketItemPatch,
     createFirstBasketItem,
     createBasketItem,
     deleteBasketItem,

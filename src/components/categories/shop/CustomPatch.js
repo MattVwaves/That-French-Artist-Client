@@ -1,5 +1,6 @@
 import { useParams } from 'react-router';
 import { useState, useEffect } from 'react';
+import { useShopContext } from '../../../context/shop';
 
 import BackIcon from '../../functional/back';
 
@@ -13,7 +14,11 @@ export default function CustomPatch({
   const [frameColour, setFrameColour] = useState('white');
   const [designColour, setDesignColour] = useState('white');
   const [patchId, setPatchId] = useState(null);
-  const basketId = localStorage.getItem('basketId');
+  const [basketId, setBasketId] = useState(
+    window.localStorage.getItem('basketId')
+  );
+
+  const { createFirstBasketItemPatch } = useShopContext();
 
   useEffect(() => {
     setPatchQuantity(0);
@@ -34,6 +39,7 @@ export default function CustomPatch({
     if (storedFrameColour) setFrameColour(storedFrameColour);
     if (storedDesignColour) setDesignColour(storedDesignColour);
     if (storedPatchId) setPatchId(storedPatchId);
+    console.log(basketId);
   });
 
   const handleColour = (e) => {
@@ -51,7 +57,24 @@ export default function CustomPatch({
     }
   };
 
-  const handleAddPatch = () => {
+  const handleAddPatch = async () => {
+    const description = `cstm-${design}-${designColour}-${frameColour}`;
+    const category = 'patches';
+    const price = '£15.00';
+
+    if (!basketId) {
+      await createFirstBasketItemPatch(
+        description,
+        category,
+        price,
+        setBasketList,
+        setBasketId
+      );
+      setPatchQuantity(1);
+      window.localStorage.setItem('custom-patch-quantity', 1);
+      return;
+    }
+
     if (patchQuantity === 0) {
       const opts = {
         method: 'POST',
