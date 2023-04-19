@@ -21,7 +21,9 @@ export default function Disclaimer({ handleCloseDisclaimer }) {
       <div className="container-center">
         <h2 id="disclaimer-heading">DISCLAIMER!</h2>
         <p id="disclaimer-text">{disclaimerText}</p>
-        <span onClick={handleCloseDisclaimer}>X</span>
+        <span onClick={handleCloseDisclaimer} id="disclaimer-close">
+          X
+        </span>
       </div>
     </div>
   );
