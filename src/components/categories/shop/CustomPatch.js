@@ -18,7 +18,11 @@ export default function CustomPatch({
     window.localStorage.getItem('basketId')
   );
 
-  const { createFirstBasketItemPatch } = useShopContext();
+  const {
+    createFirstBasketItemPatch,
+    createBasketItemPatch,
+    updateBasketItemPatch,
+  } = useShopContext();
 
   useEffect(() => {
     setPatchQuantity(0);
@@ -39,7 +43,6 @@ export default function CustomPatch({
     if (storedFrameColour) setFrameColour(storedFrameColour);
     if (storedDesignColour) setDesignColour(storedDesignColour);
     if (storedPatchId) setPatchId(storedPatchId);
-    console.log(basketId);
   });
 
   const handleColour = (e) => {
@@ -76,52 +79,25 @@ export default function CustomPatch({
     }
 
     if (patchQuantity === 0) {
-      const opts = {
-        method: 'POST',
-        headers: { 'Content-type': 'application/json' },
-        body: JSON.stringify({
-          description: `cstm-${design}-${designColour}-${frameColour}`,
-          category: 'patches',
-          price: '£15.00',
-        }),
-      };
-      fetch(`http://localhost:4000/item/basket/${basketId}`, opts).then((res) =>
-        res.json().then((data) => {
-          window.localStorage.setItem('custom-patch-id', data.basketItem.id);
-          const updatedBasketList = [...basketList, data.basketItem];
-          console.log(data.basketItem);
-          setBasketList(updatedBasketList);
-          setLocalBasket(updatedBasketList);
-          setPatchId(data.basketItem.id);
-        })
+      await createBasketItemPatch(
+        description,
+        category,
+        price,
+        basketId,
+        setBasketList,
+        basketList,
+        setPatchId
       );
       setPatchQuantity(1);
-
       window.localStorage.setItem('custom-patch-quantity', 1);
       return;
     }
-    const opts = {
-      method: 'PATCH',
-      headers: { 'Content-type': 'application/json' },
-      body: JSON.stringify({
-        quantity: patchQuantity + 1,
-      }),
-    };
 
-    fetch(`http://localhost:4000/item/basket/${patchId}`, opts)
-      .then((res) => res.json())
-      .then((data) => {
-        const updatedPatch = data.updatedBasketItem;
-        const updatedBasketList = basketList.map((basketItem) => {
-          if (basketItem.id === updatedPatch.id) return updatedPatch;
-          return basketItem;
-        });
-        setBasketList(updatedBasketList);
-        setLocalBasket(updatedBasketList);
-        const newPatchQuantity = patchQuantity + 1;
-        setPatchQuantity(newPatchQuantity);
-        window.localStorage.setItem('custom-patch-quantity', newPatchQuantity);
-      });
+    const quantity = patchQuantity + 1;
+    await updateBasketItemPatch(quantity, patchId, basketList, setBasketList);
+    const newPatchQuantity = patchQuantity + 1;
+    setPatchQuantity(newPatchQuantity);
+    window.localStorage.setItem('custom-patch-quantity', newPatchQuantity);
   };
 
   const handleRemovePatch = () => {

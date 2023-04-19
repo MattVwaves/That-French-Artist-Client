@@ -41,14 +41,28 @@ const ShopProvider = ({ children }) => {
     };
   };
 
+  const patchOptsUpdate = (quantity) => {
+    return {
+      method: 'PATCH',
+      headers: { 'Content-type': 'application/json' },
+      body: JSON.stringify({
+        quantity,
+      }),
+    };
+  };
+
   const createFirstBasketItemPatch = async (
     description,
     category,
     price,
+    method,
     setBasketList,
     setBasketId
   ) => {
-    await fetch(`${apiUrl}/basket`, patchOpts(description, category, price))
+    await fetch(
+      `${apiUrl}/basket`,
+      patchOpts(description, category, price, method)
+    )
       .then((res) => res.json())
       .then((data) => {
         const updatedBasketList = data.basket.basketItems;
@@ -83,6 +97,51 @@ const ShopProvider = ({ children }) => {
     });
     setShopItemsList(updatedItemsList);
     return;
+  };
+
+  const createBasketItemPatch = async (
+    description,
+    category,
+    price,
+    basketId,
+    setBasketList,
+    basketList,
+    setPatchId
+  ) => {
+    await fetch(
+      `${apiUrl}/item/basket/${Number(basketId)}`,
+      patchOpts(description, category, price)
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        window.localStorage.setItem('custom-patch-id', data.basketItem.id);
+        const updatedBasketList = [...basketList, data.basketItem];
+        setBasketList(updatedBasketList);
+        setLocalBasket(updatedBasketList);
+        setPatchId(data.basketItem.id);
+      });
+  };
+
+  const updateBasketItemPatch = async (
+    quantity,
+    patchId,
+    basketList,
+    setBasketList
+  ) => {
+    await fetch(
+      `http://localhost:4000/item/basket/${patchId}`,
+      patchOptsUpdate(quantity)
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        const updatedPatch = data.updatedBasketItem;
+        const updatedBasketList = basketList.map((basketItem) => {
+          if (basketItem.id === updatedPatch.id) return updatedPatch;
+          return basketItem;
+        });
+        setBasketList(updatedBasketList);
+        setLocalBasket(updatedBasketList);
+      });
   };
 
   const createBasketItem = async (
@@ -139,6 +198,8 @@ const ShopProvider = ({ children }) => {
     getBasket,
     createFirstBasketItemPatch,
     createFirstBasketItem,
+    createBasketItemPatch,
+    updateBasketItemPatch,
     createBasketItem,
     deleteBasketItem,
     updateShopItemsList,
