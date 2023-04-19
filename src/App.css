@@ -243,6 +243,20 @@ h3 {
   grid-template-columns: 133px;
 }
 
+#custom-designs li {
+  display: inline-block;
+}
+
+#custom-designs li img {
+  height: 30vh;
+}
+
+@media only screen and (max-width: 900px) {
+  #custom-designs li img {
+    height: 20vh;
+  }
+}
+
 button {
   width: fit-content;
   margin: 4px 2px;

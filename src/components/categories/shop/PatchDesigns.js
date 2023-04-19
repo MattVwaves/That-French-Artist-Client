@@ -20,7 +20,7 @@ export default function PatchDesigns() {
             src={require('../../../assets/shop/patches/embroided/custom-designs/cat.png')}
             onClick={handleShowPatch}
             name="cat-cut"
-            height="130px"
+            // height="130px"
             alt="patch-design"
           />
         </li>
@@ -29,7 +29,7 @@ export default function PatchDesigns() {
             src={require('../../../assets/shop/patches/embroided/custom-designs/dino.png')}
             onClick={handleShowPatch}
             name="dino"
-            height="130px"
+            // height="130px"
             alt="patch-design"
           />
         </li>
@@ -38,7 +38,7 @@ export default function PatchDesigns() {
             src={require('../../../assets/shop/patches/embroided/custom-designs/skel.png')}
             onClick={handleShowPatch}
             name="cat-skel"
-            height="130px"
+            // height="130px"
             alt="patch-design"
           />
         </li>
