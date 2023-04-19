@@ -13,12 +13,18 @@ export default function PatchesAddRemove({
   const patchCategory = localStorage.getItem('patch-category');
   const smallPatchId = Number(localStorage.getItem('random-patch-small-id'));
   const largePatchId = Number(localStorage.getItem('random-patch-large-id'));
+  const smallPatchQuantity = Number(
+    localStorage.getItem('random-patch-small-quantity')
+  );
+  const largePatchQuantity = Number(
+    localStorage.getItem('random-patch-large-quantity')
+  );
 
   const {
     createFirstBasketItemPatch,
     createBasketItemPatch,
     updateBasketItemPatch,
-    // deleteBasketItemPatch,
+    deleteBasketItemPatch,
   } = useShopContext();
 
   useEffect(() => {
@@ -92,7 +98,35 @@ export default function PatchesAddRemove({
   };
 
   const handleRemovePatch = async (e) => {
+    let quantity;
+    let patchId;
     const size = e.target.name;
+    if (size === 'small' && smallPatchQuantity > 1) {
+      quantity = smallPatchQuantity - 1;
+      patchId = smallPatchId;
+      localStorage.setItem('random-patch-small-quantity', quantity);
+      await updateBasketItemPatch(quantity, patchId, basketList, setBasketList);
+      return;
+    }
+    if (size === 'large' && largePatchQuantity > 1) {
+      quantity = largePatchQuantity - 1;
+      patchId = largePatchId;
+      localStorage.setItem('random-patch-large-quantity', quantity);
+      await updateBasketItemPatch(quantity, patchId, basketList, setBasketList);
+      return;
+    }
+    if (size === 'small' && smallPatchQuantity === 1) {
+      patchId = smallPatchId;
+      localStorage.setItem('random-patch-small-quantity', 0);
+      localStorage.setItem('random-patch-small-id', null);
+      await deleteBasketItemPatch(patchId, basketList, setBasketList);
+    }
+    if (size === 'large' && largePatchQuantity === 1) {
+      patchId = largePatchId;
+      localStorage.setItem('random-patch-large-quantity', 0);
+      localStorage.setItem('random-patch-large-id', null);
+      await deleteBasketItemPatch(patchId, basketList, setBasketList);
+    }
   };
   return (
     <div className="patch-custom" id="random-add">
