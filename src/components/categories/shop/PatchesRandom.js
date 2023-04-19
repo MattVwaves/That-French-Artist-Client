@@ -42,7 +42,6 @@ export default function PatchesRandom() {
               <li className="grid-center" key={patch.id}>
                 <img
                   src={require(`../../../assets/shop/patches/${patchCategory}/${patch.description}.png`)}
-                  height="75px"
                   alt="patch"
                 />
               </li>

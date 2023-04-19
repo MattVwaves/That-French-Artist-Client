@@ -329,7 +329,7 @@ span,
 
 .patches-all-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   position: fixed;
   top: 50%;
   left: 50%;
@@ -342,6 +342,19 @@ span,
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.patches-all-container img {
+  height: 20vh;
+}
+
+@media only screen and (max-width: 900px) {
+  .patches-all-container img {
+    height: 13vh;
+  }
+  .patches-all-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 #patch-popup {
