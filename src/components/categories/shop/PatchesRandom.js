@@ -4,7 +4,12 @@ import BackIcon from '../../functional/back';
 import Disclaimer from './Disclaimer';
 import PatchesAddRemove from './PatchesAddRemove';
 
-export default function PatchesRandom() {
+export default function PatchesRandom({
+  basketList,
+  setBasketList,
+  randomPatchQuantity,
+  setRandomPatchQuantity,
+}) {
   const [patchList, setPatchList] = useState([]);
   const { category } = useParams();
   const [patchCategory, setPatchCategory] = useState(undefined);
@@ -12,8 +17,14 @@ export default function PatchesRandom() {
   const apiUrl = 'http://localhost:4000';
 
   useEffect(() => {
-    if (category === 'embroided-random') setPatchCategory('embroided');
-    if (category === 'bleached-random') setPatchCategory('bleached');
+    if (category === 'embroided-random') {
+      setPatchCategory('embroided');
+      localStorage.setItem('patch-category', 'embroided');
+    }
+    if (category === 'bleached-random') {
+      setPatchCategory('bleached');
+      localStorage.setItem('patch-category', 'bleached');
+    }
 
     fetch(`${apiUrl}/item/shop/?category=${patchCategory}-patches`)
       .then((res) => res.json())
@@ -33,7 +44,14 @@ export default function PatchesRandom() {
       {showDisclaimer && (
         <Disclaimer handleCloseDisclaimer={handleCloseDisclaimer} />
       )}
-      {!showDisclaimer && <PatchesAddRemove />}
+      {!showDisclaimer && (
+        <PatchesAddRemove
+          randomPatchQuantity={randomPatchQuantity}
+          setRandomPatchQuantity={setRandomPatchQuantity}
+          basketList={basketList}
+          setBasketList={setBasketList}
+        />
+      )}
 
       {patchList && (
         <div className="patches-all-container">

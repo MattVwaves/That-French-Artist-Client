@@ -3,7 +3,12 @@ import { useEffect, useState } from 'react';
 import PatchDesigns from './PatchDesigns';
 import PatchesRandom from './PatchesRandom';
 
-export default function PatchLists() {
+export default function PatchLists({
+  basketList,
+  setBasketList,
+  randomPatchQuantity,
+  setRandomPatchQuantity,
+}) {
   const { category } = useParams();
 
   const [showPatchDesigns, setShowPatchDesigns] = useState(false);
@@ -18,7 +23,14 @@ export default function PatchLists() {
   return (
     <>
       {showPatchDesigns && <PatchDesigns />}
-      {showRandomPatches && <PatchesRandom />}
+      {showRandomPatches && (
+        <PatchesRandom
+          basketList={basketList}
+          setBasketList={setBasketList}
+          randomPatchQuantity={randomPatchQuantity}
+          setRandomPatchQuantity={setRandomPatchQuantity}
+        />
+      )}
     </>
   );
 }

@@ -17,6 +17,15 @@ const ShopProvider = ({ children }) => {
     );
   };
 
+  const patchType = async (description, patchId) => {
+    if (description.includes('cstm'))
+      window.localStorage.setItem('custom-patch-id', patchId);
+    if (description.includes('rndm-small'))
+      window.localStorage.setItem('random-patch-small-id', patchId);
+    if (description.includes('rndm-large'))
+      window.localStorage.setItem('random-patch-large-id', patchId);
+  };
+
   const opts = (shopItem) => {
     return {
       method: 'POST',
@@ -55,21 +64,21 @@ const ShopProvider = ({ children }) => {
     description,
     category,
     price,
-    method,
     setBasketList,
-    setBasketId
+    setBasketId,
+    setPatchId
   ) => {
-    await fetch(
-      `${apiUrl}/basket`,
-      patchOpts(description, category, price, method)
-    )
+    await fetch(`${apiUrl}/basket`, patchOpts(description, category, price))
       .then((res) => res.json())
       .then((data) => {
+        const patchId = data.basket.basketItems[0].id;
         const updatedBasketList = data.basket.basketItems;
         setBasketList(updatedBasketList);
         window.localStorage.setItem('basketId', data.basket.id);
         setLocalBasket(updatedBasketList);
         setBasketId(data.basket.id);
+        patchType(description, patchId);
+        // setPatchId(patchId);
       });
     return;
   };
@@ -114,11 +123,14 @@ const ShopProvider = ({ children }) => {
     )
       .then((res) => res.json())
       .then((data) => {
-        window.localStorage.setItem('custom-patch-id', data.basketItem.id);
+        console.log(data);
+        console.log(basketList);
         const updatedBasketList = [...basketList, data.basketItem];
+        const patchId = data.basketItem.id;
         setBasketList(updatedBasketList);
         setLocalBasket(updatedBasketList);
-        setPatchId(data.basketItem.id);
+        patchType(description, patchId);
+        // setPatchId(data.basketItem.id);
       });
   };
 
@@ -128,6 +140,7 @@ const ShopProvider = ({ children }) => {
     basketList,
     setBasketList
   ) => {
+    console.log(patchId);
     await fetch(
       `http://localhost:4000/item/basket/${patchId}`,
       patchOptsUpdate(quantity)

@@ -21,6 +21,9 @@ function App() {
   const [patchQuantity, setPatchQuantity] = useState(
     JSON.parse(window.localStorage.getItem('custom-patch-quantity'))
   );
+  const [randomPatchQuantity, setRandomPatchQuantity] = useState(
+    JSON.parse(window.localStorage.getItem('random-patch-quantity'))
+  );
 
   useEffect(() => {
     if (
@@ -61,7 +64,14 @@ function App() {
         <Route path="/shop/patches/:type" element={<PatchType />}></Route>
         <Route
           path="/shop/patches/:type/:category"
-          element={<PatchCategory />}
+          element={
+            <PatchCategory
+              randomPatchQuantity={randomPatchQuantity}
+              setRandomPatchQuantity={setRandomPatchQuantity}
+              basketList={basketList}
+              setBasketList={setBasketList}
+            />
+          }
         ></Route>
         <Route
           path="/shop/patches/embroided/custom/:design"

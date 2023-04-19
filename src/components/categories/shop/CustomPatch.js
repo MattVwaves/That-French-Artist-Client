@@ -26,7 +26,6 @@ export default function CustomPatch({
   } = useShopContext();
 
   useEffect(() => {
-    console.log(patchId);
     setPatchQuantity(0);
   }, [design]);
 
@@ -73,9 +72,12 @@ export default function CustomPatch({
         category,
         price,
         setBasketList,
-        setBasketId
+        setBasketId,
+        setPatchId
       );
       setPatchQuantity(1);
+      setPatchId(patchId);
+
       window.localStorage.setItem('custom-patch-quantity', 1);
       return;
     }
