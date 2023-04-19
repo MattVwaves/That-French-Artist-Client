@@ -31,7 +31,7 @@ button {
   margin-top: 2px;
   margin-bottom: 8px;
   padding: 5px;
-  font-size: 10px;
+  font-size: 16px;
 }
 
 /* logo */
@@ -270,7 +270,7 @@ span,
   padding: 2px;
   margin: 3px;
   background-color: #91ead6;
-  font-size: 12px;
+  font-size: 16px;
   border-radius: 2px;
 }
 
@@ -287,7 +287,11 @@ span,
 }
 
 .patch-custom img {
-  height: 30vh;
+  /* height: 30vh; */
+}
+
+#custom-patch-images {
+  height: 350px;
 }
 
 #patch-frame {
@@ -309,12 +313,13 @@ span,
 }
 
 .patch-selects select {
-  width: 100px;
+  width: fit-content;
   border-color: #e04193;
 }
 
 .patch-selects label {
-  font-size: 12px;
+  font-size: 14px;
+  padding: 5px;
 }
 
 .patch-price span {
@@ -322,9 +327,9 @@ span,
   margin-top: 10px;
 }
 
-.span {
+/* .span {
   height: fit-content;
-}
+} */
 
 .patches-all-container {
   display: grid;

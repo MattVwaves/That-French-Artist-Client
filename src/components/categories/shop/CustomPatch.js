@@ -153,18 +153,38 @@ export default function CustomPatch({
     <>
       <BackIcon />
       <div className="patch-custom">
-        <div>
-          <img
-            src={require(`../../../assets/shop/patches/embroided/custom-components/${design}/frame${frameColour}.png`)}
-            alt="patch-frame"
-            id="patch-frame"
-          />
-          <img
-            src={require(`../../../assets/shop/patches/embroided/custom-components/${design}/${designColour}.png`)}
-            alt="patch-frame"
-            id="patch-design"
-          />
-        </div>
+        {design === 'dino' && (
+          <div>
+            <img
+              src={require(`../../../assets/shop/patches/embroided/custom-components/${design}/frame${frameColour}.png`)}
+              alt="patch-frame"
+              id="patch-frame"
+              height="325px"
+            />
+            <img
+              src={require(`../../../assets/shop/patches/embroided/custom-components/${design}/${designColour}.png`)}
+              alt="patch-frame"
+              id="patch-design"
+              height="325px"
+            />
+          </div>
+        )}
+        {design !== 'dino' && (
+          <div>
+            <img
+              src={require(`../../../assets/shop/patches/embroided/custom-components/${design}/frame${frameColour}.png`)}
+              alt="patch-frame"
+              id="patch-frame"
+              height="275px"
+            />
+            <img
+              src={require(`../../../assets/shop/patches/embroided/custom-components/${design}/${designColour}.png`)}
+              alt="patch-frame"
+              id="patch-design"
+              height="275px"
+            />
+          </div>
+        )}
         <form className="patch-selects">
           <label for="patches">frame colour</label>
           <select
