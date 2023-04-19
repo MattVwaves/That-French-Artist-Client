@@ -144,6 +144,23 @@ const ShopProvider = ({ children }) => {
       });
   };
 
+  const deleteBasketItemPatch = async (patchId, basketList, setBasketList) => {
+    const opts = {
+      method: 'DELETE',
+      headers: { 'Content-type': 'application/json' },
+    };
+    await fetch(`http://localhost:4000/item/basket/${patchId}`, opts)
+      .then((res) => res.json())
+      .then((data) => {
+        const deletedPatch = data.basketItem;
+        const updatedBasketList = basketList.filter((basketItem) => {
+          return basketItem.id !== deletedPatch.id;
+        });
+        setBasketList(updatedBasketList);
+        setLocalBasket(updatedBasketList);
+      });
+  };
+
   const createBasketItem = async (
     shopItem,
     basketId,
@@ -200,6 +217,7 @@ const ShopProvider = ({ children }) => {
     createFirstBasketItem,
     createBasketItemPatch,
     updateBasketItemPatch,
+    deleteBasketItemPatch,
     createBasketItem,
     deleteBasketItem,
     updateShopItemsList,

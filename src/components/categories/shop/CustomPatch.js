@@ -22,9 +22,11 @@ export default function CustomPatch({
     createFirstBasketItemPatch,
     createBasketItemPatch,
     updateBasketItemPatch,
+    deleteBasketItemPatch,
   } = useShopContext();
 
   useEffect(() => {
+    console.log(patchId);
     setPatchQuantity(0);
   }, [design]);
 
@@ -100,51 +102,20 @@ export default function CustomPatch({
     window.localStorage.setItem('custom-patch-quantity', newPatchQuantity);
   };
 
-  const handleRemovePatch = () => {
+  const handleRemovePatch = async () => {
     if (patchQuantity > 1) {
-      const opts = {
-        method: 'PATCH',
-        headers: { 'Content-type': 'application/json' },
-        body: JSON.stringify({
-          quantity: patchQuantity - 1,
-        }),
-      };
-      fetch(`http://localhost:4000/item/basket/${patchId}`, opts)
-        .then((res) => res.json())
-        .then((data) => {
-          const updatedPatch = data.updatedBasketItem;
-          const updatedBasketList = basketList.map((basketItem) => {
-            if (basketItem.id === updatedPatch.id) return updatedPatch;
-            return basketItem;
-          });
-          setBasketList(updatedBasketList);
-          setLocalBasket(updatedBasketList);
-          const newPatchQuantity = patchQuantity - 1;
-          setPatchQuantity(newPatchQuantity);
-          window.localStorage.setItem(
-            'custom-patch-quantity',
-            newPatchQuantity
-          );
-        });
+      const quantity = patchQuantity - 1;
+      await updateBasketItemPatch(quantity, patchId, basketList, setBasketList);
+      const newPatchQuantity = patchQuantity - 1;
+      setPatchQuantity(newPatchQuantity);
+      window.localStorage.setItem('custom-patch-quantity', newPatchQuantity);
     }
+
     if (patchQuantity === 1) {
-      const opts = {
-        method: 'DELETE',
-        headers: { 'Content-type': 'application/json' },
-      };
-      fetch(`http://localhost:4000/item/basket/${patchId}`, opts)
-        .then((res) => res.json())
-        .then((data) => {
-          const deletedPatch = data.basketItem;
-          const updatedBasketList = basketList.filter((basketItem) => {
-            return basketItem.id !== deletedPatch.id;
-          });
-          setBasketList(updatedBasketList);
-          setLocalBasket(updatedBasketList);
-          setPatchQuantity(0);
-          window.localStorage.setItem('custom-patch-quantity', 0);
-          window.localStorage.setItem('cistom-patch-id', null);
-        });
+      await deleteBasketItemPatch(patchId, basketList, setBasketList);
+      setPatchQuantity(0);
+      window.localStorage.setItem('custom-patch-quantity', 0);
+      window.localStorage.setItem('cistom-patch-id', null);
     }
   };
 
