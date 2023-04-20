@@ -11,18 +11,20 @@ export default function Basket({
   setPatchQuantity,
 }) {
   const [displayBasket, setDisplaybasket] = useState(false);
+  const basket = JSON.parse(window.localStorage.getItem('basket-list'));
 
   const handleDisplayBasket = () => {
     setDisplaybasket(!displayBasket);
   };
+
   return (
     <>
       {displayBasket && (
         <div className="basket-container">
           <h1>BASKET</h1>
           <ul>
-            {basketList &&
-              basketList.sort().map((basketItem) => {
+            {basket &&
+              basket.sort().map((basketItem) => {
                 return (
                   <BasketItem
                     shopItemsList={shopItemsList}
@@ -36,7 +38,7 @@ export default function Basket({
                 );
               })}
           </ul>
-          <Total basketList={basketList} />
+          <Total basketList={basket} />
         </div>
       )}
 

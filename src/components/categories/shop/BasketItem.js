@@ -62,10 +62,12 @@ export default function BasketItem({
         quantity = customPatchQuantity + 1;
         localStorage.setItem('custom-patch-quantity', quantity);
       }
-      if (customPatchId !== basketItem.id) {
-        patchId = basketItem.id;
-        quantity = basketItem.quantity + 1;
+      if (basketItem.description.includes('rndm')) {
       }
+      // if (customPatchId !== basketItem.id) {
+      //   patchId = basketItem.id;
+      //   quantity = basketItem.quantity + 1;
+      // }
     }
     await updateBasketItemPatch(quantity, patchId, basketList, setBasketList);
   };

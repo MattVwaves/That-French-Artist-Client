@@ -79,8 +79,8 @@ export default function PatchesAddRemove({
         category,
         price,
         basketId,
-        basketList,
-        setBasketList
+        setBasketList,
+        basketList
       );
       localStorage.setItem('random-patch-small-quantity', 1);
     }
