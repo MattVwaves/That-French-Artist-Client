@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useShopContext } from '../../../context/shop';
 
 export default function BasketItem({
   shopItemsList,
@@ -9,8 +10,6 @@ export default function BasketItem({
   patchQuantity,
   setPatchQuantity,
 }) {
-  const [customPatchId, setCustomPatchId] = useState(null);
-
   const setLocalBasket = async (updatedBasketList) => {
     window.localStorage.setItem(
       'basket-list',
@@ -18,10 +17,12 @@ export default function BasketItem({
     );
   };
 
-  useEffect(() => {
-    const customPatchId = localStorage.getItem('custom-patch-id');
-    setCustomPatchId(customPatchId);
-  });
+  const customPatchId = Number(localStorage.getItem('custom-patch-id'));
+  const customPatchQuantity = Number(
+    localStorage.getItem('custom-patch-quantity')
+  );
+
+  const { updateBasketItemPatch, deleteBasketItemPatch } = useShopContext();
 
   const handleBasketStatus = (e, basketItem) => {
     e.preventDefault();
@@ -52,78 +53,52 @@ export default function BasketItem({
     setShopItemsList(updatedItemsList);
   };
 
-  const handleAddPatch = (basketItem) => {
-    if (Number(customPatchId) === basketItem.id) {
-      console.log(customPatchId);
-      setPatchQuantity(patchQuantity + 1);
-      window.localStorage.setItem('custom-patch-quantity', patchQuantity + 1);
+  const handleAddPatch = async (basketItem) => {
+    let quantity;
+    let patchId;
+    if (basketItem.description.includes('cstm')) {
+      if (customPatchId === basketItem.id) {
+        patchId = customPatchId;
+        quantity = customPatchQuantity + 1;
+        localStorage.setItem('custom-patch-quantity', quantity);
+      }
+      if (customPatchId !== basketItem.id) {
+        patchId = basketItem.id;
+        quantity = basketItem.quantity + 1;
+      }
     }
-    const opts = {
-      method: 'PATCH',
-      headers: { 'Content-type': 'application/json' },
-      body: JSON.stringify({
-        quantity: basketItem.quantity + 1,
-      }),
-    };
-    fetch(`http://localhost:4000/item/basket/${basketItem.id}`, opts)
-      .then((res) => res.json())
-      .then((data) => {
-        const updatedPatch = data.updatedBasketItem;
-        const updatedBasketList = basketList.map((basketItem) => {
-          if (basketItem.id === updatedPatch.id) return updatedPatch;
-          return basketItem;
-        });
-        setBasketList(updatedBasketList);
-        setLocalBasket(updatedBasketList);
-      });
+    await updateBasketItemPatch(quantity, patchId, basketList, setBasketList);
   };
 
-  const handleRemovePatch = (basketItem) => {
+  const handleRemovePatch = async (basketItem) => {
+    let quantity;
+    let patchId;
     if (basketItem.quantity > 1) {
-      if (Number(customPatchId) === basketItem.id)
-        setPatchQuantity(patchQuantity - 1);
-      window.localStorage.setItem('custom-patch-quantity', patchQuantity - 1);
-
-      const opts = {
-        method: 'PATCH',
-        headers: { 'Content-type': 'application/json' },
-        body: JSON.stringify({
-          quantity: basketItem.quantity - 1,
-        }),
-      };
-      fetch(`http://localhost:4000/item/basket/${basketItem.id}`, opts)
-        .then((res) => res.json())
-        .then((data) => {
-          const updatedPatch = data.updatedBasketItem;
-          const updatedBasketList = basketList.map((basketItem) => {
-            if (basketItem.id === updatedPatch.id) return updatedPatch;
-            return basketItem;
-          });
-          setBasketList(updatedBasketList);
-          setLocalBasket(updatedBasketList);
-        });
+      if (basketItem.description.includes('cstm')) {
+        if (customPatchId === basketItem.id) {
+          patchId = customPatchId;
+          quantity = customPatchQuantity - 1;
+          localStorage.setItem('custom-patch-quantity', quantity);
+        }
+        if (customPatchId !== basketItem.id) {
+          patchId = basketItem.id;
+          quantity = basketItem.quantity - 1;
+        }
+      }
+      await updateBasketItemPatch(quantity, patchId, basketList, setBasketList);
     }
     if (basketItem.quantity === 1) {
-      if (Number(customPatchId) === basketItem.id) {
-        setPatchQuantity(0);
-        window.localStorage.setItem('custom-patch-quantity', 0);
-        window.localStorage.setItem('custom-patch-id', null);
+      if (basketItem.description.includes('cstm')) {
+        if (customPatchId === basketItem.id) {
+          patchId = customPatchId;
+          localStorage.setItem('custom-patch-id', null);
+          localStorage.setItem('custom-patch-quantity', 0);
+        }
+        if (customPatchId !== basketItem.id) {
+          patchId = basketItem.id;
+        }
       }
-
-      const opts = {
-        method: 'DELETE',
-        headers: { 'Content-type': 'application/json' },
-      };
-      fetch(`http://localhost:4000/item/basket/${basketItem.id}`, opts)
-        .then((res) => res.json())
-        .then((data) => {
-          const deletedPatch = data.basketItem;
-          const updatedBasketList = basketList.filter((basketItem) => {
-            return basketItem.id !== deletedPatch.id;
-          });
-          setBasketList(updatedBasketList);
-          setLocalBasket(updatedBasketList);
-        });
+      await deleteBasketItemPatch(patchId, basketList, setBasketList);
     }
   };
 

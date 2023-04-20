@@ -140,7 +140,6 @@ const ShopProvider = ({ children }) => {
     basketList,
     setBasketList
   ) => {
-    console.log(patchId);
     await fetch(
       `http://localhost:4000/item/basket/${patchId}`,
       patchOptsUpdate(quantity)

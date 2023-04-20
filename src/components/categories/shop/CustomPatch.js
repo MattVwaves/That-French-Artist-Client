@@ -17,6 +17,9 @@ export default function CustomPatch({
   const [basketId, setBasketId] = useState(
     window.localStorage.getItem('basketId')
   );
+  const customPatchQuantity = Number(
+    localStorage.getItem('custom-patch-quantity')
+  );
 
   const {
     createFirstBasketItemPatch,
@@ -25,9 +28,9 @@ export default function CustomPatch({
     deleteBasketItemPatch,
   } = useShopContext();
 
-  useEffect(() => {
-    setPatchQuantity(0);
-  }, [design]);
+  // useEffect(() => {
+  //   setPatchQuantity(0);
+  // }, [design]);
 
   const setLocalBasket = async (updatedBasketList) => {
     window.localStorage.setItem(
@@ -48,7 +51,7 @@ export default function CustomPatch({
 
   const handleColour = (e) => {
     localStorage.setItem('custom-patch-id', null);
-    setPatchQuantity(0);
+    localStorage.setItem('custom-patch-quantity', 0);
     const component = e.target.id;
     const colour = e.target.value;
     if (component === 'frame-colour') {
@@ -75,14 +78,12 @@ export default function CustomPatch({
         setBasketId,
         setPatchId
       );
-      setPatchQuantity(1);
       setPatchId(patchId);
-
-      window.localStorage.setItem('custom-patch-quantity', 1);
+      localStorage.setItem('custom-patch-quantity', 1);
       return;
     }
 
-    if (patchQuantity === 0) {
+    if (customPatchQuantity === 0) {
       await createBasketItemPatch(
         description,
         category,
@@ -92,30 +93,23 @@ export default function CustomPatch({
         basketList,
         setPatchId
       );
-      setPatchQuantity(1);
       window.localStorage.setItem('custom-patch-quantity', 1);
       return;
     }
-
-    const quantity = patchQuantity + 1;
+    const quantity = customPatchQuantity + 1;
     await updateBasketItemPatch(quantity, patchId, basketList, setBasketList);
-    const newPatchQuantity = patchQuantity + 1;
-    setPatchQuantity(newPatchQuantity);
-    window.localStorage.setItem('custom-patch-quantity', newPatchQuantity);
+    localStorage.setItem('custom-patch-quantity', quantity);
   };
 
   const handleRemovePatch = async () => {
-    if (patchQuantity > 1) {
-      const quantity = patchQuantity - 1;
+    if (customPatchQuantity > 1) {
+      const quantity = customPatchQuantity - 1;
       await updateBasketItemPatch(quantity, patchId, basketList, setBasketList);
-      const newPatchQuantity = patchQuantity - 1;
-      setPatchQuantity(newPatchQuantity);
-      window.localStorage.setItem('custom-patch-quantity', newPatchQuantity);
+      window.localStorage.setItem('custom-patch-quantity', quantity);
     }
 
-    if (patchQuantity === 1) {
+    if (customPatchQuantity === 1) {
       await deleteBasketItemPatch(patchId, basketList, setBasketList);
-      setPatchQuantity(0);
       window.localStorage.setItem('custom-patch-quantity', 0);
       window.localStorage.setItem('cistom-patch-id', null);
     }
@@ -204,7 +198,7 @@ export default function CustomPatch({
         <span id="custom-patch-price">£15.00</span>
         <button onClick={handleAddPatch}>+</button>
         <button onClick={handleRemovePatch}>-</button>
-        <span id="custom-patch-price">{patchQuantity}</span>
+        <span id="custom-patch-price">{customPatchQuantity}</span>
       </div>
     </>
   );

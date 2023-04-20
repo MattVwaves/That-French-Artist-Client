@@ -141,9 +141,7 @@ export default function PatchesAddRemove({
         <button name="small" onClick={handleRemovePatch}>
           -
         </button>
-        <span>
-          {Number(localStorage.getItem('random-patch-small-quantity'))}
-        </span>
+        <span>{smallPatchQuantity}</span>
       </div>
       <div className="patch-selects ">
         <button name="large" onClick={handleAddPatch}>
@@ -152,9 +150,7 @@ export default function PatchesAddRemove({
         <button name="large" onClick={handleRemovePatch}>
           -
         </button>
-        <span>
-          {Number(localStorage.getItem('random-patch-large-quantity'))}
-        </span>
+        <span>{largePatchQuantity}</span>
       </div>
     </div>
   );
