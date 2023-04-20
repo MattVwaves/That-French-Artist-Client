@@ -21,6 +21,18 @@ export default function BasketItem({
   const customPatchQuantity = Number(
     localStorage.getItem('custom-patch-quantity')
   );
+  const randomSmallEmbroidId = Number(
+    localStorage.getItem('random-patch-small-id')
+  );
+  const randomLargeEmbroidId = Number(
+    localStorage.getItem('random-patch-large-id')
+  );
+  const randomSmallEmbroidQ = Number(
+    localStorage.getItem('random-patch-small-quantity')
+  );
+  const randomLargeEmbroidQ = Number(
+    localStorage.getItem('random-patch-large-quantity')
+  );
 
   const { updateBasketItemPatch, deleteBasketItemPatch } = useShopContext();
 
@@ -61,14 +73,22 @@ export default function BasketItem({
         patchId = customPatchId;
         quantity = customPatchQuantity + 1;
         localStorage.setItem('custom-patch-quantity', quantity);
+      } else {
+        patchId = basketItem.id;
+        quantity = basketItem.quantity + 1;
       }
-      if (basketItem.description.includes('rndm')) {
-      }
-      // if (customPatchId !== basketItem.id) {
-      //   patchId = basketItem.id;
-      //   quantity = basketItem.quantity + 1;
-      // }
     }
+    if (basketItem.description.includes('rndm-small')) {
+      patchId = randomSmallEmbroidId;
+      quantity = randomSmallEmbroidQ + 1;
+      localStorage.setItem('random-patch-small-quantity', quantity);
+    }
+    if (basketItem.description.includes('rndm-large')) {
+      patchId = randomLargeEmbroidId;
+      quantity = randomLargeEmbroidQ + 1;
+      localStorage.setItem('random-patch-large-quantity', quantity);
+    }
+
     await updateBasketItemPatch(quantity, patchId, basketList, setBasketList);
   };
 
@@ -81,12 +101,22 @@ export default function BasketItem({
           patchId = customPatchId;
           quantity = customPatchQuantity - 1;
           localStorage.setItem('custom-patch-quantity', quantity);
-        }
-        if (customPatchId !== basketItem.id) {
+        } else {
           patchId = basketItem.id;
           quantity = basketItem.quantity - 1;
         }
       }
+      if (basketItem.description.includes('rndm-small')) {
+        patchId = randomSmallEmbroidId;
+        quantity = randomSmallEmbroidQ - 1;
+        localStorage.setItem('random-patch-small-quantity', quantity);
+      }
+      if (basketItem.description.includes('rndm-large')) {
+        patchId = randomLargeEmbroidId;
+        quantity = randomLargeEmbroidQ - 1;
+        localStorage.setItem('random-patch-large-quantity', quantity);
+      }
+
       await updateBasketItemPatch(quantity, patchId, basketList, setBasketList);
     }
     if (basketItem.quantity === 1) {
@@ -95,11 +125,21 @@ export default function BasketItem({
           patchId = customPatchId;
           localStorage.setItem('custom-patch-id', null);
           localStorage.setItem('custom-patch-quantity', 0);
-        }
-        if (customPatchId !== basketItem.id) {
+        } else {
           patchId = basketItem.id;
         }
       }
+      if (basketItem.description.includes('rndm-small')) {
+        patchId = randomSmallEmbroidId;
+        localStorage.setItem('random-patch-small-id', null);
+        localStorage.setItem('random-patch-small-quantity', 0);
+      }
+      if (basketItem.description.includes('rndm-large')) {
+        patchId = randomLargeEmbroidId;
+        localStorage.setItem('random-patch-large-id', null);
+        localStorage.setItem('random-patch-large-quantity', 0);
+      }
+
       await deleteBasketItemPatch(patchId, basketList, setBasketList);
     }
   };
