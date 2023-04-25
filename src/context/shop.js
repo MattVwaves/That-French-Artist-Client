@@ -17,15 +17,6 @@ const ShopProvider = ({ children }) => {
     );
   };
 
-  const patchType = async (description, patchId) => {
-    if (description.includes('cstm'))
-      window.localStorage.setItem('custom-patch-id', patchId);
-    if (description.includes('rndm-small'))
-      window.localStorage.setItem('random-patch-small-id', patchId);
-    if (description.includes('rndm-large'))
-      window.localStorage.setItem('random-patch-large-id', patchId);
-  };
-
   const opts = (shopItem) => {
     return {
       method: 'POST',
