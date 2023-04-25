@@ -1,23 +1,22 @@
 import { useState, useEffect } from 'react';
 import { useShopContext } from '../../../context/shop';
 
-export default function PatchesAddRemove({
-  basketList,
-  setBasketList,
-  randomPatchQuantity,
-  setRandomPatchQuantity,
-}) {
+export default function PatchesAddRemove({ basketList, setBasketList }) {
   const [basketId, setBasketId] = useState(
     window.localStorage.getItem('basketId')
   );
   const patchCategory = localStorage.getItem('patch-category');
-  const smallPatchId = Number(localStorage.getItem('random-patch-small-id'));
-  const largePatchId = Number(localStorage.getItem('random-patch-large-id'));
-  const smallPatchQuantity = Number(
-    localStorage.getItem('random-patch-small-quantity')
+  const smallPatchId = Number(
+    localStorage.getItem(`rndm-small-${patchCategory}-id`)
   );
-  const largePatchQuantity = Number(
-    localStorage.getItem('random-patch-large-quantity')
+  const largePatchId = Number(
+    localStorage.getItem(`rndm-large-${patchCategory}-id`)
+  );
+  const smallPatchQ = Number(
+    localStorage.getItem(`rndm-small-${patchCategory}-q`)
+  );
+  const largePatchQ = Number(
+    localStorage.getItem(`rndm-large-${patchCategory}-q`)
   );
 
   const {
@@ -26,10 +25,6 @@ export default function PatchesAddRemove({
     updateBasketItemPatch,
     deleteBasketItemPatch,
   } = useShopContext();
-
-  useEffect(() => {
-    setRandomPatchQuantity(0);
-  });
 
   const handleAddPatch = async (e) => {
     const size = e.target.name;
@@ -47,33 +42,23 @@ export default function PatchesAddRemove({
         setBasketList,
         setBasketId
       );
-      setRandomPatchQuantity(1);
-      if (size === 'small')
-        localStorage.setItem('random-patch-small-quantity', 1);
-      if (size === 'large')
-        localStorage.setItem('random-patch-large-quantity', 1);
+      localStorage.setItem(`${description}-q`, 1);
       return;
     }
     let quantity;
     let patchId;
-    if (size === 'small' && smallPatchId) {
-      quantity =
-        Number(localStorage.getItem('random-patch-small-quantity')) + 1;
-      localStorage.setItem('random-patch-small-quantity', quantity);
-      patchId = smallPatchId;
+
+    const storedId = Number(localStorage.getItem(`${description}-id`));
+    const storedQ = Number(localStorage.getItem(`${description}-q`));
+
+    if (storedId) {
+      quantity = storedQ + 1;
+      patchId = storedId;
+      localStorage.setItem(`${description}-q`, quantity);
       await updateBasketItemPatch(quantity, patchId, basketList, setBasketList);
       return;
     }
-    if (size === 'large' && largePatchId) {
-      quantity =
-        Number(localStorage.getItem('random-patch-large-quantity')) + 1;
-      localStorage.setItem('random-patch-large-quantity', quantity);
-      patchId = largePatchId;
-      await updateBasketItemPatch(quantity, patchId, basketList, setBasketList);
-      return;
-    }
-    if (size === 'small' && !smallPatchId) {
-      console.log(basketList);
+    if (!storedId) {
       await createBasketItemPatch(
         description,
         category,
@@ -82,18 +67,7 @@ export default function PatchesAddRemove({
         setBasketList,
         basketList
       );
-      localStorage.setItem('random-patch-small-quantity', 1);
-    }
-    if (size === 'large' && !largePatchId) {
-      await createBasketItemPatch(
-        description,
-        category,
-        price,
-        basketId,
-        setBasketList,
-        basketList
-      );
-      localStorage.setItem('random-patch-large-quantity', 1);
+      localStorage.setItem(`${description}-q`, 1);
     }
   };
 
@@ -101,30 +75,23 @@ export default function PatchesAddRemove({
     let quantity;
     let patchId;
     const size = e.target.name;
-    if (size === 'small' && smallPatchQuantity > 1) {
-      quantity = smallPatchQuantity - 1;
-      patchId = smallPatchId;
-      localStorage.setItem('random-patch-small-quantity', quantity);
+    const description = `rndm-${size}-${patchCategory}`;
+
+    const storedId = Number(localStorage.getItem(`${description}-id`));
+    const storedQ = Number(localStorage.getItem(`${description}-q`));
+
+    if (storedId && storedQ > 1) {
+      quantity = storedQ - 1;
+      patchId = storedId;
+      localStorage.setItem(`${description}-q`, quantity);
       await updateBasketItemPatch(quantity, patchId, basketList, setBasketList);
       return;
     }
-    if (size === 'large' && largePatchQuantity > 1) {
-      quantity = largePatchQuantity - 1;
-      patchId = largePatchId;
-      localStorage.setItem('random-patch-large-quantity', quantity);
-      await updateBasketItemPatch(quantity, patchId, basketList, setBasketList);
-      return;
-    }
-    if (size === 'small' && smallPatchQuantity === 1) {
-      patchId = smallPatchId;
-      localStorage.setItem('random-patch-small-quantity', 0);
-      localStorage.setItem('random-patch-small-id', null);
-      await deleteBasketItemPatch(patchId, basketList, setBasketList);
-    }
-    if (size === 'large' && largePatchQuantity === 1) {
-      patchId = largePatchId;
-      localStorage.setItem('random-patch-large-quantity', 0);
-      localStorage.setItem('random-patch-large-id', null);
+
+    if (storedId && storedQ === 1) {
+      patchId = storedId;
+      localStorage.setItem(`${description}-q`, 0);
+      localStorage.setItem(`${description}-id`, null);
       await deleteBasketItemPatch(patchId, basketList, setBasketList);
     }
   };
@@ -141,7 +108,7 @@ export default function PatchesAddRemove({
         <button name="small" onClick={handleRemovePatch}>
           -
         </button>
-        <span>{smallPatchQuantity}</span>
+        {smallPatchQ ? <span>{smallPatchQ}</span> : <span>0</span>}
       </div>
       <div className="patch-selects ">
         <button name="large" onClick={handleAddPatch}>
@@ -150,7 +117,7 @@ export default function PatchesAddRemove({
         <button name="large" onClick={handleRemovePatch}>
           -
         </button>
-        <span>{largePatchQuantity}</span>
+        {largePatchQ ? <span>{largePatchQ}</span> : <span>0</span>}
       </div>
     </div>
   );

@@ -70,14 +70,14 @@ const ShopProvider = ({ children }) => {
     await fetch(`${apiUrl}/basket`, patchOpts(description, category, price))
       .then((res) => res.json())
       .then((data) => {
-        console.log(setBasketList);
         const patchId = data.basket.basketItems[0].id;
         const updatedBasketList = data.basket.basketItems;
         setBasketList(updatedBasketList);
         window.localStorage.setItem('basketId', data.basket.id);
         localStorage.setItem('basket-list', JSON.stringify(updatedBasketList));
         setBasketId(data.basket.id);
-        patchType(description, patchId);
+        // patchType(description, patchId);
+        localStorage.setItem(`${description}-id`, patchId);
       });
     return;
   };
@@ -121,13 +121,12 @@ const ShopProvider = ({ children }) => {
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log(setBasketList);
         const basket = JSON.parse(window.localStorage.getItem('basket-list'));
         const updatedBasketList = [...basket, data.basketItem];
         const patchId = data.basketItem.id;
         localStorage.setItem('basket-list', JSON.stringify(updatedBasketList));
         if (setBasketList) setBasketList(updatedBasketList);
-        patchType(description, patchId);
+        localStorage.setItem(`${description}-id`, patchId);
       });
   };
 
