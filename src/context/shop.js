@@ -76,8 +76,12 @@ const ShopProvider = ({ children }) => {
         window.localStorage.setItem('basketId', data.basket.id);
         localStorage.setItem('basket-list', JSON.stringify(updatedBasketList));
         setBasketId(data.basket.id);
-        // patchType(description, patchId);
-        localStorage.setItem(`${description}-id`, patchId);
+        if (description.includes('cstm')) {
+          localStorage.setItem('custom-patch-id', patchId);
+        }
+        if (description.includes('rndm')) {
+          localStorage.setItem(`${description}-id`, patchId);
+        }
       });
     return;
   };
@@ -126,7 +130,12 @@ const ShopProvider = ({ children }) => {
         const patchId = data.basketItem.id;
         localStorage.setItem('basket-list', JSON.stringify(updatedBasketList));
         if (setBasketList) setBasketList(updatedBasketList);
-        localStorage.setItem(`${description}-id`, patchId);
+        if (description.includes('cstm')) {
+          localStorage.setItem('custom-patch-id', patchId);
+        }
+        if (description.includes('rndm')) {
+          localStorage.setItem(`${description}-id`, patchId);
+        }
       });
   };
 
