@@ -1,6 +1,11 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function CategoryTitle({ category, page, i }) {
+  useEffect(() => {
+    console.log(category);
+  });
+
   return (
     <li key={category} className="category">
       <Link

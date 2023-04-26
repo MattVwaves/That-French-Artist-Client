@@ -109,7 +109,7 @@ export default function BasketItem({
       {basketItem.category !== 'patches' && (
         <li key={basketItem.id}>
           <img
-            src={require(`../../../assets/shop/clothes/${basketItem.description}.png`)}
+            src={require(`../../../assets/shop/${basketItem.category}/${basketItem.description}.png`)}
             alt="reddress"
             width="50px"
           />

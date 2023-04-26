@@ -8,7 +8,7 @@ export default function Categories() {
   const [categoriesList, setCategoriesList] = useState([]);
   const imageCategories = ['photography', 'artworks', 'videos'];
   const musicCategories = ['instruments', 'videos', 'recordings', 'artworks'];
-  const shopCategories = ['clothes', 'other', 'jewellery', 'patches'];
+  const shopCategories = ['clothes', 'other', 'necklaces', 'patches'];
 
   const { page } = useParams();
 

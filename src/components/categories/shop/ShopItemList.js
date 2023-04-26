@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import BackIcon from '../../functional/back';
 import { useShopContext } from '../../../context/shop';
 
 export default function ShopItemList({
+  category,
   shopItemsList,
   setShopItemsList,
   basketList,
@@ -17,6 +18,10 @@ export default function ShopItemList({
     deleteBasketItem,
     updateShopItemsList,
   } = useShopContext();
+
+  useEffect(() => {
+    console.log(category);
+  });
 
   const handleCartStatus = async (shopItem) => {
     if (basketId === null) {
@@ -53,7 +58,7 @@ export default function ShopItemList({
             return (
               <li className="category" key={shopItem.id} id="shop-item">
                 <img
-                  src={require(`../../../assets/shop/clothes/${shopItem.description}.png`)}
+                  src={require(`../../../assets/shop/${category}/${shopItem.description}.png`)}
                   height="150px"
                   alt="shopItem"
                 />

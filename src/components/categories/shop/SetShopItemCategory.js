@@ -14,10 +14,11 @@ export default function SetShopItemCategory({
   const Location = useLocation();
 
   useEffect(() => {
-    if (category === 'clothes') {
+    if (category === 'clothes' || category === 'necklaces') {
       fetch(`${apiUrl}/item/shop/?category=${category}`)
         .then((res) => res.json())
         .then((data) => {
+          console.log(data);
           const itemsList = data.itemsList;
 
           const shopItemsWithAddToBasket = itemsList.map((shopItem) => {
@@ -32,6 +33,7 @@ export default function SetShopItemCategory({
             return { ...shopItem, basketStatus: 'Add to basket' };
           });
           setShopItemsList(shopItemsWithAddToBasket);
+          console.log(shopItemsList);
           window.localStorage.setItem(
             'shop-items-list',
             JSON.stringify(shopItemsWithAddToBasket)
@@ -45,12 +47,15 @@ export default function SetShopItemCategory({
 
   return (
     <>
-      <ShopItemList
-        shopItemsList={shopItemsList}
-        setShopItemsList={setShopItemsList}
-        basketList={basketList}
-        setBasketList={setBasketList}
-      />
+      {shopItemsList[0].category === category && (
+        <ShopItemList
+          category={category}
+          shopItemsList={shopItemsList}
+          setShopItemsList={setShopItemsList}
+          basketList={basketList}
+          setBasketList={setBasketList}
+        />
+      )}
     </>
   );
 }
