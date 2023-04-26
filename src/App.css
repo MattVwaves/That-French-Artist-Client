@@ -6,6 +6,10 @@
   background-color: #e891d5;
 }
 
+body {
+  font-family: 'DynaPuff', cursive;
+}
+
 .back-icon {
   position: fixed;
   top: 5%;
