@@ -16,16 +16,22 @@ export default function Categories() {
     if (page === 'images') setCategoriesList(imageCategories);
     if (page === 'music') setCategoriesList(musicCategories);
     if (page === 'shop') setCategoriesList(shopCategories);
+    if (page === 'about') setCategoriesList(null);
   }, [page]);
 
   return (
     <>
       <BackIcon />
-      <ul className="container-center" id="category-list">
-        {categoriesList.map((i) => {
-          return <CategoryTitle key={i} category={i} page={page} />;
-        })}
-      </ul>
+      {page !== 'about' ? (
+        <ul className="container-center" id="category-list">
+          {categoriesList &&
+            categoriesList.map((i) => {
+              return <CategoryTitle key={i} category={i} page={page} />;
+            })}
+        </ul>
+      ) : (
+        <div className="container-center">Under Construction</div>
+      )}
     </>
   );
 }

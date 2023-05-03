@@ -3,11 +3,7 @@ import { Link } from 'react-router-dom';
 export default function PageTitle({ pageTitle }) {
   return (
     <>
-      <img
-        src={require(`../../assets/home/${pageTitle}.png`)}
-        // height="100px"
-        alt="page"
-      />
+      <img src={require(`../../assets/home/${pageTitle}.png`)} alt="page" />
       <h2 id={pageTitle}>
         <Link
           style={{

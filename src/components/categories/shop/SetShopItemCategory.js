@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import ShopItemList from './ShopItemList';
 import { useNavigate, useLocation } from 'react-router';
+import BackIcon from '../../functional/back';
 
 export default function SetShopItemCategory({
   category,
@@ -18,9 +19,7 @@ export default function SetShopItemCategory({
       fetch(`${apiUrl}/item/shop/?category=${category}`)
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           const itemsList = data.itemsList;
-
           const shopItemsWithAddToBasket = itemsList.map((shopItem) => {
             if (
               basketList &&
@@ -33,7 +32,6 @@ export default function SetShopItemCategory({
             return { ...shopItem, basketStatus: 'Add to basket' };
           });
           setShopItemsList(shopItemsWithAddToBasket);
-          console.log(shopItemsList);
           window.localStorage.setItem(
             'shop-items-list',
             JSON.stringify(shopItemsWithAddToBasket)
@@ -55,6 +53,12 @@ export default function SetShopItemCategory({
           basketList={basketList}
           setBasketList={setBasketList}
         />
+      )}
+      {category === 'other' && (
+        <>
+          <BackIcon />
+          <div className="container-center">Under Construction</div>
+        </>
       )}
     </>
   );
