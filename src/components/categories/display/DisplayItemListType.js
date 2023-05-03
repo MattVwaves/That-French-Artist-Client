@@ -3,6 +3,7 @@ import { useState } from 'react';
 import ImageItem from './ImageItem';
 import VideoItem from './VideoItem';
 import ImageLarge from './ImageLarge';
+import Recordings from './Recordings';
 
 export default function DisplayItemListType({ category, displayItemList }) {
   const [imageLarge, setImageLarge] = useState(false);
@@ -30,6 +31,7 @@ export default function DisplayItemListType({ category, displayItemList }) {
           )}
         </li>
       ))}
+      {category === 'recordings' && <Recordings />}
       {imageLarge && (
         <ImageLarge
           imageLargeUrl={imageLargeUrl}
