@@ -48,7 +48,7 @@ export default function SetShopItemCategory({
 
   return (
     <>
-      {category && shopItemsList[0].category === category && (
+      {category && shopItemsList && shopItemsList[0].category === category && (
         <ShopItemList
           category={category}
           shopItemsList={shopItemsList}
