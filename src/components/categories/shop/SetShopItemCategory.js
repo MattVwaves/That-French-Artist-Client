@@ -48,7 +48,7 @@ export default function SetShopItemCategory({
 
   return (
     <>
-      {shopItemsList[0].category === category && (
+      {category && shopItemsList[0].category === category && (
         <ShopItemList
           category={category}
           shopItemsList={shopItemsList}
@@ -57,7 +57,7 @@ export default function SetShopItemCategory({
           setBasketList={setBasketList}
         />
       )}
-      {category === 'other' && (
+      {category && category === 'other' && (
         <>
           <BackIcon />
           <div className="container-center">Under Construction</div>
