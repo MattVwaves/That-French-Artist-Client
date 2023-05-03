@@ -10,6 +10,12 @@ body {
   font-family: 'DynaPuff', cursive;
 }
 
+h2:hover,
+li:hover {
+  filter: opacity(75%);
+  cursor: pointer;
+}
+
 .back-icon {
   position: fixed;
   top: 5%;
@@ -230,7 +236,7 @@ button {
 .adding-removing-items span {
   padding: 2px;
   background-color: #91ead6;
-  font-size: 12px;
+  font-size: 18px;
   border-radius: 2px;
   margin: auto;
 }
