@@ -63,7 +63,7 @@ export default function ShopItemList({
                   alt="shopItem"
                 />
                 <div className="adding-removing-items">
-                  <span> £20.00</span>
+                  <span> {shopItem.price}</span>
                   <button
                     style={{ backgroundColor: 'white' }}
                     onClick={() => handleCartStatus(shopItem)}

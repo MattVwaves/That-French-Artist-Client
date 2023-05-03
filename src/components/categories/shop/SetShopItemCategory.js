@@ -15,28 +15,31 @@ export default function SetShopItemCategory({
   const Location = useLocation();
 
   useEffect(() => {
-    if (category === 'clothes' || category === 'necklaces') {
-      fetch(`${apiUrl}/item/shop/?category=${category}`)
-        .then((res) => res.json())
-        .then((data) => {
-          const itemsList = data.itemsList;
-          const shopItemsWithAddToBasket = itemsList.map((shopItem) => {
-            if (
-              basketList &&
-              basketList.find(
-                (basketItem) => basketItem.description === shopItem.description
-              )
-            ) {
-              return { ...shopItem, basketStatus: 'Remove from basket' };
-            }
-            return { ...shopItem, basketStatus: 'Add to basket' };
+    if (category) {
+      if (category === 'clothes' || category === 'necklaces') {
+        fetch(`${apiUrl}/item/shop/?category=${category}`)
+          .then((res) => res.json())
+          .then((data) => {
+            const itemsList = data.itemsList;
+            const shopItemsWithAddToBasket = itemsList.map((shopItem) => {
+              if (
+                basketList &&
+                basketList.find(
+                  (basketItem) =>
+                    basketItem.description === shopItem.description
+                )
+              ) {
+                return { ...shopItem, basketStatus: 'Remove from basket' };
+              }
+              return { ...shopItem, basketStatus: 'Add to basket' };
+            });
+            setShopItemsList(shopItemsWithAddToBasket);
+            window.localStorage.setItem(
+              'shop-items-list',
+              JSON.stringify(shopItemsWithAddToBasket)
+            );
           });
-          setShopItemsList(shopItemsWithAddToBasket);
-          window.localStorage.setItem(
-            'shop-items-list',
-            JSON.stringify(shopItemsWithAddToBasket)
-          );
-        });
+      }
     }
     if (category === 'patches') {
       Navigate('/shop/patches');
