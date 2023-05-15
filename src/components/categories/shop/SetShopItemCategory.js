@@ -11,13 +11,14 @@ export default function SetShopItemCategory({
   setBasketList,
 }) {
   const apiUrl = 'http://localhost:4000';
+  const liveUrl = process.env.REACT_APP_SERVER_URL;
   const Navigate = useNavigate();
   const Location = useLocation();
 
   useEffect(() => {
     if (category) {
       if (category === 'clothes' || category === 'necklaces') {
-        fetch(`${apiUrl}/item/shop/?category=${category}`)
+        fetch(`${liveUrl}/item/shop/?category=${category}`)
           .then((res) => res.json())
           .then((data) => {
             const itemsList = data.itemsList;

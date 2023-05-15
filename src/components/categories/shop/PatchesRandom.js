@@ -15,6 +15,7 @@ export default function PatchesRandom({
   const [patchCategory, setPatchCategory] = useState(undefined);
   const [showDisclaimer, setShowDisclaimer] = useState(true);
   const apiUrl = 'http://localhost:4000';
+  const liveUrl = process.env.REACT_APP_SERVER_URL;
 
   useEffect(() => {
     if (category === 'embroided-random') {
@@ -26,7 +27,7 @@ export default function PatchesRandom({
       localStorage.setItem('patch-category', 'bleached');
     }
 
-    fetch(`${apiUrl}/item/shop/?category=${patchCategory}-patches`)
+    fetch(`${liveUrl}/item/shop/?category=${patchCategory}-patches`)
       .then((res) => res.json())
       .then((data) => {
         const patchList = data.itemsList;

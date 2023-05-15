@@ -15,6 +15,7 @@ export default function BasketItem({
   );
 
   const { updateBasketItemPatch, deleteBasketItemPatch } = useShopContext();
+  const liveUrl = process.env.REACT_APP_SERVER_URL;
 
   const handleBasketStatus = (e, basketItem) => {
     e.preventDefault();
@@ -26,7 +27,7 @@ export default function BasketItem({
         method: 'DELETE',
         headers: { 'Content-type': 'application/json' },
       };
-      fetch(`http://localhost:4000/item/basket/${basketItem.id}`, opts);
+      fetch(`${liveUrl}/item/basket/${basketItem.id}`, opts);
       const updatedBasketList = basketList.filter(
         (storedItem) => storedItem.id !== basketItem.id
       );

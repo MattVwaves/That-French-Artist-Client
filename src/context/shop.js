@@ -2,10 +2,11 @@ import { createContext, useContext } from 'react';
 
 const ShopContext = createContext();
 const apiUrl = 'http://localhost:4000';
+const liveUrl = process.env.REACT_APP_SERVER_URL;
 
 const ShopProvider = ({ children }) => {
   const getBasket = async (basketId, setBasketList) => {
-    await fetch(`http://localhost:4000/basket/${basketId}`)
+    await fetch(`${liveUrl}/basket/${basketId}`)
       .then((res) => res.json())
       .then((data) => setBasketList(data.basket.basketItems));
   };
@@ -58,7 +59,7 @@ const ShopProvider = ({ children }) => {
     setBasketList,
     setBasketId
   ) => {
-    await fetch(`${apiUrl}/basket`, patchOpts(description, category, price))
+    await fetch(`${liveUrl}/basket`, patchOpts(description, category, price))
       .then((res) => res.json())
       .then((data) => {
         const patchId = data.basket.basketItems[0].id;
@@ -84,7 +85,7 @@ const ShopProvider = ({ children }) => {
     setBasketList,
     setBasketId
   ) => {
-    await fetch(`${apiUrl}/basket`, opts(shopItem))
+    await fetch(`${liveUrl}/basket`, opts(shopItem))
       .then((res) => res.json())
       .then((data) => {
         const updatedBasketList = data.basket.basketItems;
@@ -111,7 +112,7 @@ const ShopProvider = ({ children }) => {
     basketList
   ) => {
     await fetch(
-      `${apiUrl}/item/basket/${Number(basketId)}`,
+      `${liveUrl}/item/basket/${Number(basketId)}`,
       patchOpts(description, category, price)
     )
       .then((res) => res.json())
@@ -136,10 +137,7 @@ const ShopProvider = ({ children }) => {
     basketList,
     setBasketList
   ) => {
-    await fetch(
-      `http://localhost:4000/item/basket/${patchId}`,
-      patchOptsUpdate(quantity)
-    )
+    await fetch(`${liveUrl}/item/basket/${patchId}`, patchOptsUpdate(quantity))
       .then((res) => res.json())
       .then((data) => {
         const updatedPatch = data.updatedBasketItem;
@@ -157,7 +155,7 @@ const ShopProvider = ({ children }) => {
       method: 'DELETE',
       headers: { 'Content-type': 'application/json' },
     };
-    await fetch(`http://localhost:4000/item/basket/${patchId}`, opts)
+    await fetch(`${liveUrl}/item/basket/${patchId}`, opts)
       .then((res) => res.json())
       .then((data) => {
         const deletedPatch = data.basketItem;
@@ -175,7 +173,7 @@ const ShopProvider = ({ children }) => {
     setBasketList,
     basketList
   ) => {
-    await fetch(`${apiUrl}/item/basket/${Number(basketId)}`, opts(shopItem))
+    await fetch(`${liveUrl}/item/basket/${Number(basketId)}`, opts(shopItem))
       .then((res) => res.json())
       .then((data) => {
         const updatedBasketList = [...basketList, data.basketItem];
@@ -189,7 +187,7 @@ const ShopProvider = ({ children }) => {
       method: 'DELETE',
       headers: { 'Content-type': 'application/json' },
     };
-    fetch(`${apiUrl}/item/basket/${foundItem.id}`, opts);
+    fetch(`${liveUrl}/item/basket/${foundItem.id}`, opts);
     const updatedBasketList = basketList.filter(
       (storedItem) => storedItem.id !== foundItem.id
     );

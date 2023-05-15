@@ -5,9 +5,10 @@ import Back from '../../functional/back';
 export default function DisplayItemList({ category }) {
   const [displayItemList, setDisplayItemList] = useState(null);
   const apiUrl = 'http://localhost:4000';
+  const liveUrl = process.env.REACT_APP_SERVER_URL;
 
   useEffect(() => {
-    fetch(`${apiUrl}/item/display/?subcategory=${category}`)
+    fetch(`${liveUrl}/item/display/?subcategory=${category}`)
       .then((res) => res.json())
       .then((data) => setDisplayItemList(data.itemsList));
   });
