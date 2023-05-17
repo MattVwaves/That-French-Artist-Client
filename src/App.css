@@ -11,10 +11,20 @@ body {
 }
 
 h2:hover,
-li:hover,
-.back-icon:hover {
-  filter: opacity(75%);
+.back-icon:hover,
+#custom-designs img:hover,
+.display-image:hover {
+  filter: opacity(50%);
   cursor: pointer;
+}
+
+.display-items li:hover {
+  cursor: pointer;
+  filter: opacity(50%);
+}
+
+h3:hover {
+  color: white;
 }
 
 .back-icon {
@@ -43,6 +53,11 @@ button {
   margin-bottom: 8px;
   padding: 5px;
   font-size: 16px;
+}
+
+button:hover {
+  cursor: pointer;
+  color: #e04193;
 }
 
 /* logo */
@@ -229,13 +244,10 @@ iframe {
   margin: 10px;
 }
 
-/* shop items */
-
 /* clothes jewellery other  */
 
 #category-list.container-center.shop-item-list {
   position: absolute;
-  /* padding-top: 300px; */
   transform: translate(-50%, -50%);
   height: 60%;
   width: 60vw;
@@ -313,10 +325,6 @@ span,
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-}
-
-.patch-custom img {
-  /* height: 30vh; */
 }
 
 #custom-patch-images {
@@ -468,7 +476,7 @@ span,
   height: fit-content;
   width: 200px;
   background-color: #e04193;
-  position: absolute;
+  position: fixed;
   right: 0;
   top: 0;
   padding: 5px;
