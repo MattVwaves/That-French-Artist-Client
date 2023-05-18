@@ -14,4 +14,5 @@ To view the server of this project please see: https://github.com/MattVwaves/Tha
 ## New features coming
 
 * Stripe implementation so users can complete purchases 
+* About me section
 
