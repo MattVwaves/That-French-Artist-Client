@@ -10,6 +10,8 @@ import PatchType from './components/categories/shop/PatchType';
 import PatchCategory from './components/categories/shop/PatchCategory';
 import CustomPatch from './components/categories/shop/CustomPatch';
 import Basket from './components/categories/shop/Basket';
+import Payment from './components/categories/shop/Payment';
+import Completion from './components/categories/shop/Completion';
 
 function App() {
   const [shopItemsList, setShopItemsList] = useState(
@@ -84,6 +86,8 @@ function App() {
             />
           }
         ></Route>
+        <Route path="/payment" element={<Payment />}></Route>
+        <Route path="/completion" element={<Completion />}></Route>
       </Routes>
     </>
   );
