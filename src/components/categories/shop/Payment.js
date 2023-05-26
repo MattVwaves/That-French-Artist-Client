@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import CheckoutForm from './CheckoutForm';
+import { Elements } from '@stripe/react-stripe-js';
 
 export default function Payment() {
   const apiUrl = 'http://localhost:4000';
@@ -27,7 +28,11 @@ export default function Payment() {
   return (
     <>
       <h1>Payment</h1>
-      <CheckoutForm />
+      {stripePromise && clientSecret && (
+        <Elements stripe={stripePromise} options={{ clientSecret }}>
+          <CheckoutForm />
+        </Elements>
+      )}
     </>
   );
 }
