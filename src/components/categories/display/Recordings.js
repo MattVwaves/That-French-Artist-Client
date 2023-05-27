@@ -2,6 +2,7 @@ export default function Recordings() {
   return (
     <>
       <iframe
+        className="recording"
         src="https://bandcamp.com/EmbeddedPlayer/album=4033206555/size=large/bgcol=ffffff/linkcol=0687f5/transparent=true/"
         seamless
       >
@@ -10,6 +11,7 @@ export default function Recordings() {
         </a>
       </iframe>
       <iframe
+        className="recording"
         src="https://bandcamp.com/EmbeddedPlayer/album=1479507552/size=large/bgcol=ffffff/linkcol=0687f5/transparent=true/"
         seamless
       >
