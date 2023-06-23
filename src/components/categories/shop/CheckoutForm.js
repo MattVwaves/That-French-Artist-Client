@@ -39,10 +39,14 @@ export default function CheckoutForm() {
   return (
     <div className="container-center">
       <form id="payment-form" onSubmit={handleSubmit}>
+        <span>Subtotal: £27.00</span>
+        <span>shipping: £27.00</span>
+        <span>total: £27.00</span>
+
         <PaymentElement />
         <button disabled={isProcessing} id="submit">
           <span id="button-text">
-            {isProcessing ? 'Processing ... ' : 'Pay now'}
+            {isProcessing ? 'Processing ... ' : 'Pay £27.00 now'}
           </span>
         </button>
         {message && <div id="payment-message">{message}</div>}

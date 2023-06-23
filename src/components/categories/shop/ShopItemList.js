@@ -20,7 +20,7 @@ export default function ShopItemList({
   } = useShopContext();
 
   useEffect(() => {
-    console.log(category);
+    console.log(basketList);
   });
 
   const handleCartStatus = async (shopItem) => {
