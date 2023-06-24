@@ -86,7 +86,10 @@ function App() {
             />
           }
         ></Route>
-        <Route path="/payment" element={<Payment />}></Route>
+        <Route
+          path="/payment"
+          element={<Payment basketList={basketList} />}
+        ></Route>
         <Route path="/completion" element={<Completion />}></Route>
       </Routes>
     </>

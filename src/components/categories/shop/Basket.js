@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import BasketItem from './BasketItem';
 import Total from './Total';
+import Payment from './Payment';
 
 export default function Basket({
   shopItemsList,
@@ -11,6 +12,7 @@ export default function Basket({
   setPatchQuantity,
 }) {
   const [displayBasket, setDisplaybasket] = useState(false);
+  const [showAddress, setShowAddress] = useState(false);
   const basket = JSON.parse(window.localStorage.getItem('basket-list'));
   const apiUrl = 'http://localhost:4000';
 
@@ -35,6 +37,7 @@ export default function Basket({
       .then((response) => {
         if (response.url) {
           window.location.assign(response.url);
+          console.log(response.url);
         }
       });
   };
